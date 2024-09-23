@@ -21,7 +21,7 @@ public class Program
             .ValidateDataAnnotations()
             .Validate(options => new AppOptionsValidator().Validate(options).IsValid,
                 $"{nameof(AppOptions)} validation failed");
-        builder.Services.AddDbContext<HospitalContext>((serviceProvider, options) =>
+        builder.Services.AddDbContext<MyDbContext>((serviceProvider, options) =>
         {
             var appOptions = serviceProvider.GetRequiredService<IOptions<AppOptions>>().Value;
             options.UseNpgsql(Environment.GetEnvironmentVariable("DbConnectionString") 
@@ -55,7 +55,7 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<HospitalContext>();
+            var context = scope.ServiceProvider.GetRequiredService<MyDbContext>();
             context.Database.EnsureCreated();
         }
 

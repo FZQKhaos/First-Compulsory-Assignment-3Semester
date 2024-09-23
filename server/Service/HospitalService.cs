@@ -22,7 +22,7 @@ public class HospitalService(
     IHospitalRepository hospitalRepository, 
     IValidator<CreatePatientDto> createPatientValidator,
     IValidator<UpdatePatientDto> updatePatientValidator,
-    HospitalContext context
+    MyDbContext context
     ) : IHospitalService
 {
 
