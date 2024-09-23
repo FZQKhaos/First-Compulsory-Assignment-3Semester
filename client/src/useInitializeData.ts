@@ -1,13 +1,10 @@
-import {useAtom} from "jotai";
-import {PatientsAtom} from "./atoms/PatientsAtom.tsx";
+/*import {useAtom} from "jotai";
 import {useEffect} from "react";
-import {http} from "./http.ts";
 
 export function useInitializeData() {
-    
-    const [, setPatients] = useAtom(PatientsAtom);
-    
-    
+
+
+
     useEffect(() => {
         http.api.patientGetAllPatients().then((response) => {
             setPatients(response.data);
@@ -16,3 +13,4 @@ export function useInitializeData() {
         })
     }, [])
 }
+ */
