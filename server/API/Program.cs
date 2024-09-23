@@ -1,7 +1,6 @@
 using System.Text.Json;
 using API.Middleware;
 using DataAccess;
-using DataAccess.Interfaces;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -28,9 +27,7 @@ public class Program
                               ?? appOptions.DbConnectionString);
             options.EnableSensitiveDataLogging();
         });
-        builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePatientValidator>());
-        builder.Services.AddScoped<IHospitalRepository, HospitalRepository>();
-        builder.Services.AddScoped<IHospitalService, HospitalService>();
+        
         builder.Services.AddControllers();
         builder.Services.AddOpenApiDocument();
 

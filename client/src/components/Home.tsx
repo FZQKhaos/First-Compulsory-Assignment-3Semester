@@ -15,10 +15,10 @@ export default function Home() {
 
     return (
         <div>
-            <h1 className="menu-title text-5xl m-5">The react template</h1>
-            <p className="font-bold">This is a template for a react project with Jotai, Typescript, DaisyUI, Vite (& more)</p>
+            <h1 className="menu-title text-5xl m-5">Welcome to Dunder Mifflin Infinity</h1>
+            <h2 className="menu-title text-3xl m-5">Paper Shop</h2>
 
-
+            
         </div>
     );
 }
