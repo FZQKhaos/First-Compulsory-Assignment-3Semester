@@ -16,3 +16,29 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+table {
+    margin: 20px auto;
+    width: 90%;
+    border-collapse: collapse;
+    font-size: 18px;
+    text-align: left;
+}
+
+thead {
+    border-bottom: darkgray 2px solid;
+}
+
+.titleOrder {
+    margin: 20px auto;
+    width: 90%;
+    font-size: 22px;
+    font-weight: bold;
+    color: #5050ff;
+}
+
+.thOrders {
+    background-color: #f2f2f2;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}

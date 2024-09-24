@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import {useAtom} from "jotai";
+// @ts-ignore
 import Shoppingcart from '../assests/images/Shoppingcart.png';
+// @ts-ignore
 import Customer from '../assests/images/Customer.png';
 import {useNavigate} from "react-router-dom";
 
@@ -12,7 +14,9 @@ export default function NavigationBar() {
         <div className="border-b-2 border-black">
             <div className="navbar bg-base-100">
                 <div className="flex-1">
-                    <button className="btn btn-ghost text-xl" onClick={() => navigate('/')}>Dunder Mifflin Infinity</button>
+                    <button className="btn btn-ghost text-xl" onClick={() => navigate('/')}>
+                        Dunder Mifflin - Paper Company
+                    </button>
                 </div>
                 <div className="flex-none">
                     <div className="dropdown dropdown-end">
@@ -51,7 +55,9 @@ export default function NavigationBar() {
                                     <span className="badge">New</span>
                                 </a>
                             </li>
-                            <li><button onClick={() => navigate('/Orders')}>Order(s)</button></li>
+                            <li>
+                                <button onClick={() => navigate('/Orders')}>Order(s)</button>
+                            </li>
                         </ul>
                     </div>
                 </div>
