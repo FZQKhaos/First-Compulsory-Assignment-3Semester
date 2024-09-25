@@ -1,10 +1,8 @@
-﻿import { Api } from "../api/Api.ts";
-import { useEffect, useState, useRef } from "react";
-
-export const myApi = new Api({});
+﻿import { useEffect, useState, useRef } from "react";
+import {http} from "../http.ts";
 
 function OrderRequest(amount: number) {
-    const response = myApi.orders.ordersCreate({
+    const response = http.orders.ordersCreate({
         order_date: Date.now().toString(),
         delivery_date: "",
         status: "pending",
