@@ -34,11 +34,17 @@ thead {
     width: 90%;
     font-size: 22px;
     font-weight: bold;
-    color: #5050ff;
 }
 
 .thOrders {
     background-color: #f2f2f2;
     padding: 12px;
     border-bottom: 1px solid #ddd;
+}
+
+.selectCustomer {
+    margin: 20px auto;
+    width: 90%;
+    font-size: 18px;
+    font-weight: bold;
 }

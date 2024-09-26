@@ -4,8 +4,9 @@ import {Toaster} from "react-hot-toast";
 import {DevTools} from "jotai-devtools";
 import {useAtom} from "jotai";
 import Home from "./Home.tsx";
-import Orders from "./Orders.tsx";
+import Orders from "./Order/OrdersList.tsx";
 import NavigationBar from "./NavigationBar.tsx";
+import Customer from "./Order/ConfirmOrder.tsx";
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/Orders" element={<Orders/>}/>
+            <Route path="/Customer" element={<Customer/>}/>
         </Routes>
         <DevTools/>
 
