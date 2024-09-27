@@ -27,7 +27,8 @@ public class Program
                               ?? appOptions.DbConnectionString);
             options.EnableSensitiveDataLogging();
         });
-        
+        builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());
+        builder.Services.AddScoped<IDunderMifflinService, DunderMifflinService>();
         builder.Services.AddControllers();
         builder.Services.AddOpenApiDocument();
 
