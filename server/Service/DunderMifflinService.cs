@@ -12,6 +12,9 @@ public interface IDunderMifflinService
      //Customer
      public CustomerDto CreateCustomer(CreateCustomerDto createCustomerDto);
      public List<Customer> GetAllCustomers();
+     
+     //Order
+     public List<Order> GetAllOrders();
 
 }
 
@@ -32,5 +35,10 @@ public class DunderMifflinService(
      public List<Customer> GetAllCustomers()
      {
           return context.Customers.ToList();
+     }
+
+     public List<Order> GetAllOrders()
+     {
+          return context.Orders.ToList();
      }
 }

@@ -1,10 +1,12 @@
 import { customerAtom } from "../atoms/CustomerAtom.tsx";
+import { orderAtom } from "../atoms/OrderAtom.tsx";
 import { useAtom } from "jotai";
 import { useInitializeData } from "../../InitializeData.ts";
 
 export default function OrdersList() {
 
     const [customers, setCustomers] = useAtom(customerAtom);
+    const [orders, setOrders] = useAtom(orderAtom);
 
     useInitializeData();
 
