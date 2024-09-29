@@ -1,5 +1,12 @@
+import { customerAtom } from "../atoms/CustomerAtom.tsx";
+import { useAtom } from "jotai";
+import { useInitializeData } from "../../InitializeData.ts";
+
 export default function OrdersList() {
 
+    const [customers, setCustomers] = useAtom(customerAtom);
+
+    useInitializeData();
 
     return (
         <>
@@ -12,11 +19,11 @@ export default function OrdersList() {
                         </div>
                         <select className="select select-bordered">
                             <option>All Customers</option>
-                            // Placeholder for the customer names
-                            <option>Tommy Hansen</option>
-                            <option>Søren Høberg</option>
-                            <option>Lars Larsen</option>
-                            <option>Dennis Knudsen</option>
+                            <option>
+                                {customers.map((customer) => {
+                                    return <option key={customer.id}>{customer.name}</option>
+                                })}
+                            </option>
                         </select>
                         <div className="label">
                         </div>

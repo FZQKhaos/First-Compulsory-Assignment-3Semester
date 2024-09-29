@@ -9,90 +9,70 @@
  * ---------------------------------------------------------------
  */
 
-export interface Patient {
+export interface Customer {
   /** @format int32 */
   id?: number;
   name?: string;
-  /** @format date */
-  birthdate?: string;
-  gender?: boolean;
   address?: string | null;
-  diagnoses?: Diagnosis[];
-  patientTreatments?: PatientTreatment[];
+  phone?: string | null;
+  email?: string | null;
+  orders?: Order[];
 }
 
-export interface Diagnosis {
+export interface Order {
   /** @format int32 */
   id?: number;
-  /** @format int32 */
-  patientId?: number;
-  /** @format int32 */
-  diseaseId?: number;
   /** @format date-time */
-  diagnosisDate?: string | null;
-  /** @format int32 */
-  doctorId?: number;
-  disease?: Disease;
-  doctor?: Doctor;
-  patient?: Patient;
-}
-
-export interface Disease {
-  /** @format int32 */
-  id?: number;
-  name?: string;
-  severity?: string;
-  diagnoses?: Diagnosis[];
-}
-
-export interface Doctor {
-  /** @format int32 */
-  id?: number;
-  name?: string;
-  specialty?: string;
-  /** @format int32 */
-  yearsExperience?: number | null;
-  diagnoses?: Diagnosis[];
-}
-
-export interface PatientTreatment {
-  /** @format int32 */
-  id?: number;
-  /** @format int32 */
-  patientId?: number;
-  /** @format int32 */
-  treatmentId?: number;
-  /** @format date-time */
-  startDate?: string | null;
-  /** @format date-time */
-  endDate?: string | null;
-  patient?: Patient;
-  treatment?: Treatment;
-}
-
-export interface Treatment {
-  /** @format int32 */
-  id?: number;
-  name?: string;
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
   /** @format double */
-  cost?: number;
-  patientTreatments?: PatientTreatment[];
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+  customer?: Customer | null;
+  orderEntries?: OrderEntry[];
 }
 
-export interface CreatePatientDto {
-  name?: string;
-  /** @format date */
-  birthdate?: string;
-  gender?: boolean;
-  address?: string | null;
+export interface OrderEntry {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format int32 */
+  productId?: number | null;
+  /** @format int32 */
+  orderId?: number | null;
+  order?: Order | null;
+  product?: Paper | null;
 }
 
-export interface UpdatePatientDto {
+export interface Paper {
+  /** @format int32 */
+  id?: number;
   name?: string;
-  /** @format date */
-  birthdate?: string;
-  gender?: boolean;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  orderEntries?: OrderEntry[];
+  properties?: Property[];
+}
+
+export interface Property {
+  /** @format int32 */
+  id?: number;
+  propertyName?: string;
+  papers?: Paper[];
+}
+
+export interface CreateCustomerDto {
+  name?: string | null;
   address?: string | null;
+  phone?: string | null;
+  email?: string | null;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -239,63 +219,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags Patient
-     * @name PatientCreatePatient
-     * @request POST:/api/Patient
+     * @tags Customers
+     * @name CustomersGetCustomers
+     * @request GET:/api/Customers
      */
-    patientCreatePatient: (data: CreatePatientDto, params: RequestParams = {}) =>
-      this.request<Patient, any>({
-        path: `/api/Patient`,
+    customersGetCustomers: (params: RequestParams = {}) =>
+      this.request<Customer[], any>({
+        path: `/api/Customers`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Customers
+     * @name CustomersCreateCustomer
+     * @request POST:/api/Customers
+     */
+    customersCreateCustomer: (data: CreateCustomerDto, params: RequestParams = {}) =>
+      this.request<Customer, any>({
+        path: `/api/Customers`,
         method: "POST",
         body: data,
         type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Patient
-     * @name PatientUpdatePatient
-     * @request PUT:/api/Patient
-     */
-    patientUpdatePatient: (data: UpdatePatientDto, params: RequestParams = {}) =>
-      this.request<Patient, any>({
-        path: `/api/Patient`,
-        method: "PUT",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Patient
-     * @name PatientGetAllPatients
-     * @request GET:/api/Patient
-     */
-    patientGetAllPatients: (
-      query?: {
-        /**
-         * @format int32
-         * @default 10
-         */
-        limit?: number;
-        /**
-         * @format int32
-         * @default 0
-         */
-        startAt?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<Patient[], any>({
-        path: `/api/Patient`,
-        method: "GET",
-        query: query,
         format: "json",
         ...params,
       }),
