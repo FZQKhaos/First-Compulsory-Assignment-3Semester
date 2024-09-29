@@ -19,11 +19,9 @@ export default function OrdersList() {
                         </div>
                         <select className="select select-bordered">
                             <option>All Customers</option>
-                            <option>
                                 {customers.map((customer) => {
                                     return <option key={customer.id}>{customer.name}</option>
                                 })}
-                            </option>
                         </select>
                         <div className="label">
                         </div>
@@ -32,7 +30,7 @@ export default function OrdersList() {
                 <table>
                     <thead>
                     <tr>
-                        <th>Customer Id</th>
+                        <th>Customer</th>
                         <th>Order Id</th>
                         <th>Order Date</th>
                         <th>Status</th>
