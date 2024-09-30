@@ -2,15 +2,23 @@ import { customerAtom } from "../atoms/CustomerAtom.tsx";
 import { orderAtom } from "../atoms/OrderAtom.tsx";
 import { useAtom } from "jotai";
 import { useInitializeData } from "../../InitializeData.ts";
+import {useState} from "react";
 
 export default function OrdersList() {
 
     const [customers, setCustomers] = useAtom(customerAtom);
     const [orders, setOrders] = useAtom(orderAtom);
+    const [selectedCustomer, setSelectedCustomer] = useState("All Customers");
 
     useInitializeData();
 
-    console.log("Orders: " + orders);
+    const handleCustomerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCustomer(event.target.value);
+    };
+
+    const filteredOrders = selectedCustomer === "All Customers"
+        ? orders
+        : orders.filter(order => order.customerId === Number(selectedCustomer));
 
     return (
         <>
@@ -21,10 +29,10 @@ export default function OrdersList() {
                         <div className="label">
                             <span className="label-text">Select a Customer</span>
                         </div>
-                        <select className="select select-bordered">
-                            <option>All Customers</option>
+                        <select className="select select-bordered" onChange={handleCustomerChange}>
+                            <option value="All Customers">All Customers</option>
                                 {customers.map((customer) => {
-                                    return <option key={customer.id}>{customer.name}</option>
+                                    return <option key={customer.id} value={customer.id}>{customer.name}</option>
                                 })}
                         </select>
                         <div className="label">
@@ -42,7 +50,7 @@ export default function OrdersList() {
                     </tr>
                     </thead>
                     <tbody>
-                    {orders.map((order) => {
+                    {filteredOrders.map((order) => {
                         // @ts-ignore
                         const orderDate = new Date(order.orderDate);
                         const orderDateString = orderDate.toLocaleDateString('en-GB');
