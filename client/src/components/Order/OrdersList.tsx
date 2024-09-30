@@ -10,6 +10,8 @@ export default function OrdersList() {
 
     useInitializeData();
 
+    console.log("Orders: " + orders);
+
     return (
         <>
             <div>
@@ -32,21 +34,29 @@ export default function OrdersList() {
                 <table>
                     <thead>
                     <tr>
-                        <th>Customer</th>
                         <th>Order Id</th>
                         <th>Order Date</th>
+                        <th>Delivery Date</th>
                         <th>Status</th>
                         <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr className="thOrders">
-                        <td>1</td>
-                        <td>1</td>
-                        <td>2024-24-09</td>
-                        <td>Delivered</td>
-                        <td>$420</td>
-                    </tr>
+                    {orders.map((order) => {
+                        // @ts-ignore
+                        const orderDate = new Date(order.orderDate);
+                        const orderDateString = orderDate.toLocaleDateString('en-GB');
+                        const orderTimeString = orderDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}).replace('.', ':');
+                        return (
+                            <tr key={order.id} className="thOrders">
+                                <td>{order.id}</td>
+                                <td>{orderDateString} {orderTimeString}</td>
+                                <td>{order.deliveryDate}</td>
+                                <td>{order.status}</td>
+                                <td>${order.totalAmount}</td>
+                            </tr>
+                        )
+                    })}
                     </tbody>
                 </table>
             </div>

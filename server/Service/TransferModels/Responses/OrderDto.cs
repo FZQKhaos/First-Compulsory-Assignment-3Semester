@@ -16,6 +16,8 @@ public class OrderDto
 
     public int? CustomerId { get; set; }
     
+    public string? CustomerName { get; set; }
+    
     public OrderDto FromEntity(Order order)
     {
         return new OrderDto
@@ -25,7 +27,8 @@ public class OrderDto
             DeliveryDate = order.DeliveryDate,
             Status = order.Status,
             TotalAmount = order.TotalAmount,
-            CustomerId = order.CustomerId
+            CustomerId = order.CustomerId,
+            CustomerName = order.Customer?.Name
         };
     }
 }

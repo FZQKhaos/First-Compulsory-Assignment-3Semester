@@ -19,5 +19,15 @@ export function useInitializeData() {
         });
   }, []);
 
-  // useEffect for orders
+    useEffect(() => {
+        http.api
+            .ordersGetOrders()
+            .then((response) => {
+                setOrders(response.data);
+                console.log(response.data);
+            }).catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
 }

@@ -1,6 +1,7 @@
 using DataAccess;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Service.TransferModels.Requests.Customers;
 using Service.TransferModels.Responses;
 using Service.Validators;
@@ -14,11 +15,12 @@ public interface IDunderMifflinService
      public List<Customer> GetAllCustomers();
      
      //Order
-     public List<Order> GetAllOrders();
+     public List<OrderDto> GetAllOrders();
+     public List<OrderDto> GetOrdersByCustomerId(int id);
 
 }
 
-public class DunderMifflinService(
+public class DunderMifflinService (
      MyDbContext context,
      IValidator<CreateCustomerDto> createCustomerValidator
      ) : IDunderMifflinService
@@ -37,8 +39,17 @@ public class DunderMifflinService(
           return context.Customers.ToList();
      }
 
-     public List<Order> GetAllOrders()
+     public List<OrderDto> GetAllOrders()
      {
-          return context.Orders.ToList();
+          return context.Orders
+               .Include(o => o.Customer)
+               .Select(o => new OrderDto().FromEntity(o)).ToList();
+     }
+
+     public List<OrderDto> GetOrdersByCustomerId(int id)
+     {
+          return context.Orders.Where(x => x.CustomerId == id)
+               .Include(o => o.Customer)
+               .Select(o => new OrderDto().FromEntity(o)).ToList();
      }
 }
