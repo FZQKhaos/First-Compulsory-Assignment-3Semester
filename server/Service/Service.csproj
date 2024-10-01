@@ -12,11 +12,6 @@
 
    </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="TransferModels\" />
-      <Folder Include="TransferModels\Requests\" />
-    </ItemGroup>
-
  
 
 </Project>

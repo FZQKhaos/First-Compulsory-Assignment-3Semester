@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
 
-public partial class MyDbContext : DbContext
+public partial class DunderMifflinContext : DbContext
 {
-    public MyDbContext(DbContextOptions<MyDbContext> options)
+    public DunderMifflinContext(DbContextOptions<DunderMifflinContext> options)
         : base(options)
     {
     }

@@ -20,7 +20,7 @@ public class Program
             .ValidateDataAnnotations()
             .Validate(options => new AppOptionsValidator().Validate(options).IsValid,
                 $"{nameof(AppOptions)} validation failed");
-        builder.Services.AddDbContext<MyDbContext>((serviceProvider, options) =>
+        builder.Services.AddDbContext<DunderMifflinContext>((serviceProvider, options) =>
         {
             var appOptions = serviceProvider.GetRequiredService<IOptions<AppOptions>>().Value;
             options.UseNpgsql(Environment.GetEnvironmentVariable("DbConnectionString") 
@@ -52,7 +52,7 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<DunderMifflinContext>();
             context.Database.EnsureCreated();
         }
 
