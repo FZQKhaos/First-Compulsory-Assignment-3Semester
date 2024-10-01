@@ -58,6 +58,11 @@ export default function OrdersList() {
                         const orderDateString = orderDate.toLocaleDateString('en-GB');
                         const orderTimeString = orderDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}).replace('.', ':');
 
+                        //Transforms delivery date from DB to a more readable text
+                        // @ts-ignore
+                        const deliveryDate = new Date(order.deliveryDate);
+                        const deliveryDateString = deliveryDate.toLocaleDateString('en-GB');
+
                         //Finds the customer name for the order
                         const customer = customers.find(customer => customer.id === order.customerId);
                         const customerName = customer ? customer.name : "Unknown Customer";
@@ -66,7 +71,7 @@ export default function OrdersList() {
                                 <td>{customerName}</td>
                                 <td>{order.id}</td>
                                 <td>{orderDateString} {orderTimeString}</td>
-                                <td>{order.deliveryDate}</td>
+                                <td>{deliveryDateString}</td>
                                 <td>{order.status}</td>
                                 <td>${order.totalAmount}</td>
                             </tr>
