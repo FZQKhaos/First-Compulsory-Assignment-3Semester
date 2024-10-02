@@ -21,4 +21,18 @@ public class DunderMifflinRepository(DunderMifflinContext context) : IDunderMiff
         context.SaveChanges();
         return customer;
     }
+
+    public Order InsertOrder(Order order)
+    {
+        context.Orders.Add(order);
+        context.SaveChanges();
+        return order;
+    }
+
+    public Paper InsertPaper(Paper paper)
+    {
+        context.Papers.Add(paper);
+        context.SaveChanges();
+        return paper;
+    }
 }

@@ -10,6 +10,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class CustomersController(IDunderMifflinService service) : ControllerBase
 {
+    
     [HttpGet]
     [Route("")]
     public ActionResult<List<Customer>> GetCustomers()

@@ -9,4 +9,8 @@ public interface IDunderMifflinRepository
     public int GetTotalNumberOfCustomers();
     
     public Customer InsertCustomer(Customer customer);
+    
+    public Order InsertOrder(Order order);
+    
+    public Paper InsertPaper(Paper paper);
 }

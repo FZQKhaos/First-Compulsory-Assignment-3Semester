@@ -1,6 +1,7 @@
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using Service.TransferModels.Requests;
 
 namespace API.Controllers;
 
@@ -23,6 +24,14 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
     public ActionResult<List<Order>> GetOrderByCustomerId(int id)
     {
         var order = service.GetOrdersByCustomerId(id);
+        return Ok(order);
+    }
+
+    [HttpPost]
+    [Route("")]
+    public ActionResult<Order> CreateOrder(CreateOrderDto orderDto)
+    {
+        var order = service.CreateOrder(orderDto);
         return Ok(order);
     }
 }
