@@ -2,26 +2,24 @@ import {Route, Routes} from "react-router-dom";
 import React, {useEffect} from "react";
 import {Toaster} from "react-hot-toast";
 import {DevTools} from "jotai-devtools";
-import Navigation from "./Navigation.tsx";
 import {useAtom} from "jotai";
-import {ThemeAtom} from "../atoms/ThemeAtom.tsx";
 import Home from "./Home.tsx";
+import Orders from "./Order/OrdersList.tsx";
+import NavigationBar from "./NavigationBar.tsx";
+import Customer from "./Order/ConfirmOrder.tsx";
 
 const App = () => {
 
-    const [theme, setTheme] = useAtom(ThemeAtom);
 
-    useEffect(() => {
-        localStorage.setItem('theme', theme);
-        document.documentElement.setAttribute('data-theme', theme);
-    }, [theme])
 
     return (<>
 
-        <Navigation/>
         <Toaster position={"bottom-center"}/>
+        <NavigationBar />
         <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/Orders" element={<Orders/>}/>
+            <Route path="/Customer" element={<Customer/>}/>
         </Routes>
         <DevTools/>
 
