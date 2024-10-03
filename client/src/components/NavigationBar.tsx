@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {useAtom} from "jotai";
 // @ts-ignore
 import Shoppingcart from '../assests/images/Shoppingcart.png';
 // @ts-ignore
@@ -50,17 +49,17 @@ export default function NavigationBar() {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li>
-                                <button className="justify-between" onClick={() => navigate('/Customer')}>
+                                <a className="justify-between" onClick={() => navigate('/Customer')}>
                                     Placeholder
-                                </button>
-                            </li>
-                            <li>
-                                <a className="justify-between">
-                                    Profile
                                 </a>
                             </li>
                             <li>
-                                <button onClick={() => navigate('/Orders')}>Order(s)</button>
+                                <a className="justify-between" onClick={() => navigate('/Admin')}>
+                                    Admin
+                                </a>
+                            </li>
+                            <li>
+                                <a onClick={() => navigate('/Orders')}>Order(s)</a>
                             </li>
                         </ul>
                     </div>

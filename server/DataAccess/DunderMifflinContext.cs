@@ -112,6 +112,9 @@ public partial class DunderMifflinContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
+            entity.Property(e => e.Picture)
+                .HasMaxLength(255)
+                .HasColumnName("picture");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Stock)
                 .HasDefaultValue(0)

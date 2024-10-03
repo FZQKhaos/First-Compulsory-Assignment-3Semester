@@ -11,7 +11,7 @@ export function useInitializeData() {
 
   useEffect(() => {
     http
-        .customers.customersList()
+        .api.customersGetCustomers()
         .then((response) => {
             setCustomers(response.data);
         }).catch((error) => {
@@ -21,7 +21,7 @@ export function useInitializeData() {
 
     useEffect(() => {
         http
-            .orders.ordersList()
+            .api.ordersGetOrders()
             .then((response) => {
                 setOrders(response.data);
                 console.log(response.data);

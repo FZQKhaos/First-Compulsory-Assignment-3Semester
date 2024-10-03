@@ -2,11 +2,12 @@ import {Route, Routes} from "react-router-dom";
 import React, {useEffect} from "react";
 import {Toaster} from "react-hot-toast";
 import {DevTools} from "jotai-devtools";
-import {useAtom} from "jotai";
 import Home from "./Home.tsx";
 import Orders from "./Order/OrdersList.tsx";
 import NavigationBar from "./NavigationBar.tsx";
 import Customer from "./Order/ConfirmOrder.tsx";
+import AdminPage from "./AdminPage.tsx";
+import ProductManager from "./Product/ProductManager.tsx";
 
 const App = () => {
 
@@ -20,6 +21,8 @@ const App = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/Orders" element={<Orders/>}/>
             <Route path="/Customer" element={<Customer/>}/>
+            <Route path="/Admin" element={<AdminPage/>}/>
+            <Route path="/ProductManager" element={<ProductManager/>}/>
         </Routes>
         <DevTools/>
 

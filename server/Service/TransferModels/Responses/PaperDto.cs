@@ -9,6 +9,7 @@ public class PaperDto
     public bool Discontinued { get; set; }
     public int Stock { get; set; }
     public double Price { get; set; }
+    public string? Picture { get; set; }
 
     public PaperDto FromEntity(Paper paper)
     {
@@ -18,7 +19,8 @@ public class PaperDto
             Name = paper.Name,
             Discontinued = paper.Discontinued,
             Stock = paper.Stock,
-            Price = paper.Price
+            Price = paper.Price,
+            Picture = paper.Picture
         };
     }
 }

@@ -57,6 +57,7 @@ export interface Paper {
   stock?: number;
   /** @format double */
   price?: number;
+  picture?: string | null;
   orderEntries?: OrderEntry[];
   properties?: Property[];
 }
@@ -85,6 +86,27 @@ export interface CreateOrderDto {
   totalAmount?: number;
   /** @format int32 */
   customerId?: number;
+}
+
+export interface CreatePaperDto {
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  picture?: string | null;
+}
+
+export interface UpdatePaperDto {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -303,6 +325,55 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Order[], any>({
         path: `/api/Orders/${id}`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetPapersI
+     * @request GET:/api/Product
+     */
+    productGetPapersI: (params: RequestParams = {}) =>
+      this.request<Paper[], any>({
+        path: `/api/Product`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCreatePaper
+     * @request POST:/api/Product
+     */
+    productCreatePaper: (data: CreatePaperDto, params: RequestParams = {}) =>
+      this.request<Paper, any>({
+        path: `/api/Product`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdatePaper
+     * @request PUT:/api/Product/{id}
+     */
+    productUpdatePaper: (id: number, data: UpdatePaperDto, params: RequestParams = {}) =>
+      this.request<Paper, any>({
+        path: `/api/Product/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

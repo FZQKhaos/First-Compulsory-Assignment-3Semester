@@ -6,21 +6,26 @@ using Microsoft.Extensions.Logging;
 using Service.TransferModels.Requests;
 using Service.TransferModels.Responses;
 using Service.TransferModels.Requests.Customers;
+using Service.Validators;
 
 namespace Service;
 
 public interface IDunderMifflinService
 {
+    // Customers
     public CustomerDto CreateCustomer(CreateCustomerDto createCustomerDto);
     public CustomerDto UpdateCustomer(UpdateCustomerDto updateCustomerDto);
     public List<Customer> GetAllCustomers();
+    
+    // Orders
     public OrderDto CreateOrder(CreateOrderDto createOrderDto);
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto);
     public List<OrderDto> GetAllOrders();
     public List<OrderDto> GetOrdersByCustomerId(int id);
+    
+    // Papers
     public PaperDto CreatePaper(CreatePaperDto createPaperDto);
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto);
-    
     public List<Paper> GetAllPapers();
 }
 
@@ -29,6 +34,8 @@ public interface IDunderMifflinService
 public class DunderMifflinService(
     ILogger<DunderMifflinService> logger,
     IValidator<CreateCustomerDto> createCustomerValidator,
+    IValidator<CreatePaperDto> createPaperValidator,
+    IValidator<UpdatePaperDto> updatePaperValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
 {
@@ -92,7 +99,7 @@ public class DunderMifflinService(
     public PaperDto CreatePaper(CreatePaperDto createPaperDto)
     {
         logger.LogInformation("Creating new paper");
-        // createPaperValidator.ValidateAndThrow(createPaperDto);
+        createPaperValidator.ValidateAndThrow(createPaperDto);
         var paper = createPaperDto.ToPaper();
         context.Papers.Add(paper);
         context.SaveChanges();
@@ -102,9 +109,22 @@ public class DunderMifflinService(
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto)
     {
         logger.LogInformation("Updating paper");
-        // updatePaperValidator.ValidateAndThrow(updatePaperDto);
-        var paper = updatePaperDto.ToPaper();
+        updatePaperValidator.ValidateAndThrow(updatePaperDto);
+        
+        var paper = context.Papers.Find(updatePaperDto.Id);
+        if (paper == null)
+        {
+            throw new Exception("Paper not found");
+        }
+        
+        paper.Name = updatePaperDto.Name;
+        paper.Discontinued = updatePaperDto.Discontinued;
+        paper.Stock = updatePaperDto.Stock;
+        paper.Price = updatePaperDto.Price;
+
         context.Papers.Update(paper);
+        context.SaveChanges();
+        
         return new PaperDto().FromEntity(paper);
     }
 
