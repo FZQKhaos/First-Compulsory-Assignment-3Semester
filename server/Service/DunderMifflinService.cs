@@ -1,5 +1,4 @@
 using DataAccess;
-using DataAccess.Interfaces;
 using DataAccess.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +28,6 @@ public interface IDunderMifflinService
 
 public class DunderMifflinService(
     ILogger<DunderMifflinService> logger,
-    IDunderMifflinRepository dunderMifflinRepository,
     IValidator<CreateCustomerDto> createCustomerValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
@@ -39,8 +37,9 @@ public class DunderMifflinService(
         logger.LogInformation("Creating new customer");
         createCustomerValidator.ValidateAndThrow(createCustomerDto);
         var customer = createCustomerDto.ToCustomer();
-        Customer newCustomer = dunderMifflinRepository.InsertCustomer(customer);
-        return new CustomerDto().FromEntity(newCustomer);
+        context.Customers.Add(customer);
+        context.SaveChanges();
+        return new CustomerDto().FromEntity(customer);
     }
 
     public CustomerDto UpdateCustomer(UpdateCustomerDto updateCustomerDto)
@@ -62,8 +61,9 @@ public class DunderMifflinService(
         logger.LogInformation("Creating new order");
         // createOrderValidator.ValidateAndThrow(createOrderDto);
         var order = createOrderDto.ToOrder();
-        Order newOrder = dunderMifflinRepository.InsertOrder(order);
-        return new OrderDto().FromEntity(newOrder);
+        context.Orders.Add(order);
+        context.SaveChanges();
+        return new OrderDto().FromEntity(order);
     }
 
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto)
@@ -94,8 +94,9 @@ public class DunderMifflinService(
         logger.LogInformation("Creating new paper");
         // createPaperValidator.ValidateAndThrow(createPaperDto);
         var paper = createPaperDto.ToPaper();
-        Paper newPaper = dunderMifflinRepository.InsertPaper(paper);
-        return new PaperDto().FromEntity(newPaper);
+        context.Papers.Add(paper);
+        context.SaveChanges();
+        return new PaperDto().FromEntity(paper);
     }
 
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto)

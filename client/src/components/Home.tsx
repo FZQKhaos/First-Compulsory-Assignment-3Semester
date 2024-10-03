@@ -13,11 +13,7 @@ export default function Home() {
 
     return (
         <div>
-            <h1 className="menu-title text-5xl m-5">Welcome to Dunder Mifflin Infinity</h1>
-            <h2 className="menu-title text-3xl m-5">Paper Shop</h2>
-
             <PaperItem />
-            
         </div>
     );
 }
