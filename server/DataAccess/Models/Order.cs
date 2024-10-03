@@ -13,7 +13,7 @@ public partial class Order
 
     public string Status { get; set; } = null!;
 
-    public int TotalAmount { get; set; }
+    public double TotalAmount { get; set; }
 
     public int? CustomerId { get; set; }
 

@@ -75,6 +75,18 @@ export interface CreateCustomerDto {
   email?: string | null;
 }
 
+export interface CreateOrderDto {
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format int32 */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number;
+}
+
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 import axios from "axios";
 
@@ -259,6 +271,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Order[], any>({
         path: `/api/Orders`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Orders
+     * @name OrdersCreateOrder
+     * @request POST:/api/Orders
+     */
+    ordersCreateOrder: (data: CreateOrderDto, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/api/Orders`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

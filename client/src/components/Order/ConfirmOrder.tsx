@@ -12,14 +12,7 @@ import {useEffect, useRef, useState} from "react";
 import React from "react";
 
 function OrderRequest(amount: number) {
-    const response = http.orders.ordersCreate({
-        order_date: Date.now().toString(),
-        delivery_date: "",
-        status: "pending",
-        total_amount: amount,
-        customer_id: http.customers.customersList()[length + 1],
-    });
-    console.log(response);
+    
 }
 
 export default function ConfirmOrder(){
