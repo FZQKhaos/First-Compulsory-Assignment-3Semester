@@ -7,9 +7,9 @@ import Address from '../../assests/images/Address.png';
 import Phone from '../../assests/images/Phone.png';
 // @ts-ignore
 import Email from '../../assests/images/Email.png';
-import {http} from "../../http.ts";
 import {useEffect, useRef, useState} from "react";
 import React from "react";
+import { http } from "../../http"
 
 function OrderRequest(amount: number) {
     
@@ -33,6 +33,7 @@ export default function ConfirmOrder(){
     const handleOrderClick = () => {
         const amount = inputRef.current ? Number(inputRef.current.value) : 0
         OrderRequest(amount);
+        // Navigate to "Thank you for the order" page here
     };
 
     return (
