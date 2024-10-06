@@ -7,6 +7,7 @@ import Home from "./Home.tsx";
 import Orders from "./Order/OrdersList.tsx";
 import NavigationBar from "./NavigationBar.tsx";
 import Customer from "./Order/ConfirmOrder.tsx";
+import ThankYou from "./Order/ThankYou.tsx";
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/Orders" element={<Orders/>}/>
             <Route path="/Customer" element={<Customer/>}/>
+            <Route path="/ThankYou" element={<ThankYou/>}/>
         </Routes>
         <DevTools/>
 
