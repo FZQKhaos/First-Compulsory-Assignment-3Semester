@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { customerAtom } from "./components/atoms/CustomerAtom.tsx";
 import { orderAtom } from "./components/atoms/OrderAtom.tsx";
+import { paperAtom } from "./components/atoms/PaperAtom.tsx";
 import { useAtom } from "jotai";
 import { http } from "./http.ts";
 
@@ -8,6 +9,7 @@ export function useInitializeData() {
 
     const [customers, setCustomers] = useAtom(customerAtom);
     const [orders, setOrders] = useAtom(orderAtom);
+    const [papers, setPapers] = useAtom(paperAtom);
 
   useEffect(() => {
     http
@@ -25,6 +27,16 @@ export function useInitializeData() {
             .then((response) => {
                 setOrders(response.data);
                 console.log(response.data);
+            }).catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        http
+            .api.paperGetPapers()
+            .then((response) => {
+                setPapers(response.data);
             }).catch((error) => {
                 console.error(error);
             });

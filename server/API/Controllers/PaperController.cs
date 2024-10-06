@@ -8,12 +8,12 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController (IDunderMifflinService service) : ControllerBase
+public class PaperController (IDunderMifflinService service) : ControllerBase
 {
 
     [HttpGet]
     [Route("")]
-    public ActionResult<List<Paper>> GetPapersI()
+    public ActionResult<List<Paper>> GetPapers()
     {
         var papers = service.GetAllPapers();
         return Ok(papers);
