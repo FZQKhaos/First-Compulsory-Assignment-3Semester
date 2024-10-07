@@ -349,11 +349,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Paper
      * @name PaperCreatePaper
-     * @request POST:/api/Paper
+     * @request POST:/api/Paper/create
      */
     paperCreatePaper: (data: CreatePaperDto, params: RequestParams = {}) =>
       this.request<Paper, any>({
-        path: `/api/Paper`,
+        path: `/api/Paper/create`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -366,11 +366,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Paper
      * @name PaperUpdatePaper
-     * @request PUT:/api/Paper/{id}
+     * @request PUT:/api/Paper/update/{id}
      */
     paperUpdatePaper: (id: number, data: UpdatePaperDto, params: RequestParams = {}) =>
       this.request<Paper, any>({
-        path: `/api/Paper/${id}`,
+        path: `/api/Paper/update/${id}`,
         method: "PUT",
         body: data,
         type: ContentType.Json,

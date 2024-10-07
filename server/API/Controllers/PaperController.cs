@@ -20,7 +20,7 @@ public class PaperController (IDunderMifflinService service) : ControllerBase
     }
 
     [HttpPost]
-    [Route("")]
+    [Route("create")]
     public ActionResult<Paper> CreatePaper(CreatePaperDto createPaperDto)
     {
         var paper = service.CreatePaper(createPaperDto);
@@ -28,7 +28,7 @@ public class PaperController (IDunderMifflinService service) : ControllerBase
     }
     
     [HttpPut]
-    [Route("{id}")]
+    [Route("update/{id}")]
     public ActionResult<Paper> UpdatePaper(int id, UpdatePaperDto updatePaperDto)
     {
         

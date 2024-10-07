@@ -1,6 +1,12 @@
 import {useState} from "react";
+import {http} from "../../http.ts";
+import toast from "react-hot-toast";
+import {useAtom} from "jotai";
+import {paperAtom} from "../atoms/PaperAtom.tsx";
 
 export default function CreatePaper() {
+
+    const [papers, setPapers] = useAtom(paperAtom);
 
     const [newPaper, setNewPaper] = useState({
         name: "",
@@ -10,37 +16,86 @@ export default function CreatePaper() {
         picture: ""
     });
 
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setNewPaper({...newPaper, [name]: value});
+    };
+
+    const addProduct = async () => {
+
+            const productData = {
+                name: newPaper.name,
+                stock: parseInt(newPaper.stock),
+                price: parseInt(newPaper.price),
+                discontinued: newPaper.discontinued,
+                picture: newPaper.picture
+            };
+
+            try {
+                const response = await http.api.paperCreatePaper(productData);
+                setPapers([...papers, response.data]);
+                toast.success("Successfully added product to catalog");
+            } catch (error) {
+                toast.error("Failed to add product to catalog");
+            }
+        };
+
     return (
         <div className="card bg-base-300 rounded-box grid h-auto flex-grow place-items-center p-5">
             <h1>Add new Product</h1>
-            <label className="form-control w-full max-w-xs">
-                <div className="label">
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
                     <span className="label-text">Name</span>
-                </div>
-                <input type="text" placeholder="Example: A4 - 50 Pack"
-                       className="input input-bordered w-full max-w-xs"/>
-            </label>
-            <label className="form-control w-full max-w-xs">
-                <div className="label">
+                </label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Example: A4 - 50 Pack"
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
                     <span className="label-text">Stock</span>
-                </div>
-                <input type="text" placeholder="Example: 100" className="input input-bordered w-full max-w-xs"/>
-            </label>
-            <label className="form-control w-full max-w-xs">
-                <div className="label">
+                </label>
+                <input
+                    type="text"
+                    name="stock"
+                    placeholder="Example: 100"
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
                     <span className="label-text">Price</span>
-                </div>
-                <input type="text" placeholder="Example: 250" className="input input-bordered w-full max-w-xs"/>
-            </label>
-            <label className="form-control w-full max-w-xs">
-            </label>
-            <label>
-                <div className="label">
+                </label>
+                <input
+                    type="text"
+                    name="price"
+                    placeholder="Example: 250"
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div className="form-control w-full max-w-xs">
+                <label className="label">
                     <span className="label-text">Picture</span>
-                </div>
-                <input type="file" className="file-input file-input-bordered w-full max-w-xs"/>
-            </label>
-            <button className="btn btn-primary mt-2">Add Product</button>
+                </label>
+                <input
+                    type="text"
+                    name="picture"
+                    placeholder="Enter picture URL"
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div className="form-control w-full max-w-xs mt-4">
+                <button className="btn btn-primary w-full" onClick={addProduct}>
+                    Add Product
+                </button>
+            </div>
         </div>
     );
 }
