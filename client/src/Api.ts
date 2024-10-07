@@ -75,6 +75,15 @@ export interface CreateCustomerDto {
   email?: string | null;
 }
 
+export interface CreateOrderEntryDto {
+  /** @format int32 */
+  orderId?: number;
+  /** @format int32 */
+  productId?: number;
+  /** @format int32 */
+  quantity?: number;
+}
+
 export interface CreateOrderDto {
   /** @format date-time */
   orderDate?: string;
@@ -253,6 +262,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     customersCreateCustomer: (data: CreateCustomerDto, params: RequestParams = {}) =>
       this.request<Customer, any>({
         path: `/api/Customers`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OrderEntries
+     * @name OrderEntriesCreateOrderEntry
+     * @request POST:/api/OrderEntries
+     */
+    orderEntriesCreateOrderEntry: (data: CreateOrderEntryDto, params: RequestParams = {}) =>
+      this.request<OrderEntry, any>({
+        path: `/api/OrderEntries`,
         method: "POST",
         body: data,
         type: ContentType.Json,

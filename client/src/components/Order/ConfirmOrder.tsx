@@ -7,18 +7,30 @@ import Address from '../../assests/images/Address.png';
 import Phone from '../../assests/images/Phone.png';
 // @ts-ignore
 import Email from '../../assests/images/Email.png';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { http } from "../../http";
 import { useAtom } from "jotai";
 import { cartAtom } from "../atoms/CartAtom.tsx";
+import { OrderEntry } from "../../Api.ts";
 
-function OrderRequest(amount: number) {
-    // Time to order logic :(
+interface Cart {
+    id?: number;
+    name?: string;
+    price?: number;
+    amount: number
+}
+
+function OrderRequest(cart: Cart[]) {
+    const response = cart.map(p => http.api.orderEntriesCreateOrderEntry({
+            quantity: p.amount,
+            productId: p.id,
+        })
+    );
+    console.log(response);
 }
 
 export default function ConfirmOrder() {
     const navigate = useNavigate();
-    const inputRef = useRef<HTMLInputElement>(null);
     const [cart] = useAtom(cartAtom);
     const [orderItems, setOrderItems] = useState<JSX.Element[]>([]);
 
@@ -35,14 +47,13 @@ export default function ConfirmOrder() {
     }, [cart]);
 
     const handleOrderClick = () => {
-        const amount = inputRef.current ? Number(inputRef.current.value) : 0;
-        OrderRequest(amount);
+        OrderRequest(cart);
         navigate('/ThankYou');
     };
 
     return (
         <div>
-            <h1>Register yourself</h1>
+            <h1>register yourself. we will grate be selling this information</h1>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Name} alt={"Name"}/>
                 <input type="text" className="grow" placeholder="Name"/>
