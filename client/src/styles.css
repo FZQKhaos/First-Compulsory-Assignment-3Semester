@@ -48,3 +48,13 @@ thead {
     font-size: 18px;
     font-weight: bold;
 }
+
+.inputsize {
+    width: 95px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
