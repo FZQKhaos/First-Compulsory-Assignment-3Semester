@@ -54,7 +54,7 @@ export default function CreatePaper() {
                 <input
                     type="text"
                     name="name"
-                    placeholder="Example: A4 - 50 Pack"
+                    placeholder="Ex: A4 - 50 Pack"
                     className="input input-bordered w-full max-w-xs"
                     onChange={handleInputChange}
                 />
@@ -66,7 +66,7 @@ export default function CreatePaper() {
                 <input
                     type="text"
                     name="stock"
-                    placeholder="Example: 100"
+                    placeholder="Ex: 100"
                     className="input input-bordered w-full max-w-xs"
                     onChange={handleInputChange}
                 />
@@ -78,7 +78,7 @@ export default function CreatePaper() {
                 <input
                     type="text"
                     name="price"
-                    placeholder="Example: 250"
+                    placeholder="Ex: 250"
                     className="input input-bordered w-full max-w-xs"
                     onChange={handleInputChange}
                 />
