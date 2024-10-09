@@ -27,12 +27,4 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
         var order = service.GetOrdersByCustomerId(id);
         return Ok(order);
     }
-
-    [HttpPost]
-    [Route("")]
-    public ActionResult<Order> CreateOrder(CreateOrderDto orderDto)
-    {
-        var order = service.CreateOrder(orderDto);
-        return Ok(order);
-    }
 }

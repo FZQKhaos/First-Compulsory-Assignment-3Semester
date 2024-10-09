@@ -17,7 +17,6 @@ public interface IDunderMifflinService
     public CustomerDto CreateCustomer(CreateCustomerDto createCustomerDto);
     public CustomerDto UpdateCustomer(UpdateCustomerDto updateCustomerDto);
     public List<Customer> GetAllCustomers();
-    public OrderDto CreateOrder(CreateOrderDto createOrderDto);
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto);
     public List<OrderDto> GetAllOrders();
     public List<OrderDto> GetOrdersByCustomerId(int id);
@@ -41,6 +40,9 @@ public class DunderMifflinService(
         // createOrderEntryValidator.ValidateAndThrow(createOrderEntryDto);
         var orderEntry = createOrderEntryDto.ToOrderEntry();
         context.OrderEntries.Add(orderEntry);
+        CreateOrderDto createOrderDto = new CreateOrderDto();
+        var order = createOrderDto.ToOrder(createOrderEntryDto.Quantity);
+        context.Orders.Add(order);
         context.SaveChanges();
         return new OrderEntryDto().FromEntity(orderEntry);
     }
@@ -76,16 +78,6 @@ public class DunderMifflinService(
     public List<Customer> GetAllCustomers()
     {
         return context.Customers.ToList();
-    }
-
-    public OrderDto CreateOrder(CreateOrderDto createOrderDto)
-    {
-        logger.LogInformation("Creating new order");
-        // createOrderValidator.ValidateAndThrow(createOrderDto);
-        var order = createOrderDto.ToOrder();
-        context.Orders.Add(order);
-        context.SaveChanges();
-        return new OrderDto().FromEntity(order);
     }
 
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto)
