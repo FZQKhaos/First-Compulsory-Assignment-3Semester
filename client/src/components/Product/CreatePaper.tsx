@@ -17,7 +17,7 @@ export default function CreatePaper() {
         stock: "",
         price: "",
         discontinued: false,
-        picture: "/images/PaperStack.jpg"
+        picture: "../../assests//images/PaperStack.jpg"
     });
 
     const handleInputChange = (e) => {
