@@ -27,6 +27,7 @@ export default function ProductStock() {
         }
 
         const updatedStock = papers.map((paper) =>
+            // @ts-ignore
             paper.id === id ? { ...paper, stock: paper.stock + inputValue } : paper
         );
 
@@ -61,10 +62,10 @@ export default function ProductStock() {
                 <tbody>
                 {papers.map((paper) => {
                     if (paper.discontinued) {
-                        return null;
+                        return;
                     }
                     if (paper.id === undefined) {
-                        return null;
+                        return;
                     }
                     return (
                     <tr key={paper.id}>
