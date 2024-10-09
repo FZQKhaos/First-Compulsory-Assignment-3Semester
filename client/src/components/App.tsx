@@ -8,6 +8,7 @@ import NavigationBar from "./NavigationBar.tsx";
 import Customer from "./Order/ConfirmOrder.tsx";
 import AdminPage from "./AdminPage.tsx";
 import ProductManager from "./Product/ProductManager.tsx";
+import UpdateOrder from "./Order/UpdateOrder.tsx";
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/Customer" element={<Customer/>}/>
             <Route path="/Admin" element={<AdminPage/>}/>
             <Route path="/ProductManager" element={<ProductManager/>}/>
+            <Route path="/UpdateOrder" element={<UpdateOrder/>}/>
         </Routes>
         <DevTools/>
 

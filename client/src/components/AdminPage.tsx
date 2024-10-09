@@ -7,11 +7,11 @@ export default function AdminPage() {
     return (
     <div className="flex w-3/4 mx-auto justify-center mt-5">
         <div className="card bg-base-300 rounded-box grid h-20 flex-grow place-items-center" role="button">
-            <a className="" onClick={() => navigate('/ProductManager')}>Manage Products</a>
+            <a onClick={() => navigate('/ProductManager')}>Manage Products</a>
         </div>
         <div className="divider divider-horizontal"></div>
         <div className="card bg-base-300 rounded-box grid h-20 flex-grow place-items-center" role="button">
-            <a>Update Orders</a>
+            <a onClick={() => navigate('/UpdateOrder')}>Update Orders</a>
         </div>
     </div>
 );
