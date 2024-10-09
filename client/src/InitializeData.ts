@@ -4,12 +4,14 @@ import { orderAtom } from "./components/atoms/OrderAtom.tsx";
 import { paperAtom } from "./components/atoms/PaperAtom.tsx";
 import { useAtom } from "jotai";
 import { http } from "./http.ts";
+import {propertyAtom} from "./components/atoms/PropertyAtom.tsx";
 
 export function useInitializeData() {
 
     const [customers, setCustomers] = useAtom(customerAtom);
     const [orders, setOrders] = useAtom(orderAtom);
     const [papers, setPapers] = useAtom(paperAtom);
+    const [properties, setProperties] = useAtom(propertyAtom);
 
   useEffect(() => {
     http
@@ -40,6 +42,16 @@ export function useInitializeData() {
             }).catch((error) => {
                 console.error(error);
             });
+    }, []);
+
+    useEffect(() => {
+        http
+            .api.propertyGetProperties()
+            .then((response) => {
+                setProperties(response.data);
+            }).catch((error) => {
+                console.error(error);
+        });
     }, []);
 
 }

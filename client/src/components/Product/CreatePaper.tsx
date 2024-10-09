@@ -3,8 +3,12 @@ import {http} from "../../http.ts";
 import toast from "react-hot-toast";
 import {useAtom} from "jotai";
 import {paperAtom} from "../atoms/PaperAtom.tsx";
+import {useInitializeData} from "../../InitializeData.ts";
+
 
 export default function CreatePaper() {
+
+    useInitializeData();
 
     const [papers, setPapers] = useAtom(paperAtom);
 
@@ -13,7 +17,7 @@ export default function CreatePaper() {
         stock: "",
         price: "",
         discontinued: false,
-        picture: ""
+        picture: "/images/PaperStack.jpg"
     });
 
     const handleInputChange = (e) => {
@@ -23,13 +27,13 @@ export default function CreatePaper() {
 
     const addProduct = async () => {
 
-            const productData = {
-                name: newPaper.name,
-                stock: parseInt(newPaper.stock),
-                price: parseInt(newPaper.price),
-                discontinued: newPaper.discontinued,
-                picture: newPaper.picture
-            };
+        const productData = {
+            name: newPaper.name,
+            stock: parseInt(newPaper.stock),
+            price: parseInt(newPaper.price),
+            discontinued: newPaper.discontinued,
+            picture: newPaper.picture
+        };
 
             try {
                 const response = await http.api.paperCreatePaper(productData);
@@ -38,7 +42,7 @@ export default function CreatePaper() {
             } catch (error) {
                 toast.error("Failed to add product to catalog");
             }
-        };
+    }
 
     return (
         <div className="card bg-base-300 rounded-box grid h-auto flex-grow place-items-center p-5">
@@ -75,18 +79,6 @@ export default function CreatePaper() {
                     type="text"
                     name="price"
                     placeholder="Example: 250"
-                    className="input input-bordered w-full max-w-xs"
-                    onChange={handleInputChange}
-                />
-            </div>
-            <div className="form-control w-full max-w-xs">
-                <label className="label">
-                    <span className="label-text">Picture</span>
-                </label>
-                <input
-                    type="text"
-                    name="picture"
-                    placeholder="Enter picture URL"
                     className="input input-bordered w-full max-w-xs"
                     onChange={handleInputChange}
                 />

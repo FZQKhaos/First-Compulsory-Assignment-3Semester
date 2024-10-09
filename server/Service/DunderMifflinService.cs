@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Service.TransferModels.Requests;
 using Service.TransferModels.Responses;
 using Service.TransferModels.Requests.Customers;
+using Service.TransferModels.Requests.Property;
 using Service.Validators;
 
 namespace Service;
@@ -27,6 +28,13 @@ public interface IDunderMifflinService
     public PaperDto CreatePaper(CreatePaperDto createPaperDto);
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto);
     public List<Paper> GetAllPapers();
+    
+    // Properties
+    public PropertyDto CreateProperty(CreatePropertyDto createPropertyDto);
+    public PropertyDto UpdateProperty(UpdatePropertyDto updatePropertyDto);
+    public List<Property> GetAllProperties();
+    public List<Property> GetPropertyById(int id);
+    public void AddPropertyToPaper(int paperId, int propertyId);
 }
 
 // Validator lines are commented, uncomment when validators are done
@@ -36,6 +44,8 @@ public class DunderMifflinService(
     IValidator<CreateCustomerDto> createCustomerValidator,
     IValidator<CreatePaperDto> createPaperValidator,
     IValidator<UpdatePaperDto> updatePaperValidator,
+    IValidator<CreatePropertyDto> createPropertyValidator,
+    IValidator<UpdatePropertyDto> updatePropertyValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
 {
@@ -131,5 +141,53 @@ public class DunderMifflinService(
     public List<Paper> GetAllPapers()
     {
         return context.Papers.ToList();
+    }
+
+    public PropertyDto CreateProperty(CreatePropertyDto createPropertyDto)
+    {
+        logger.LogInformation("Creating new property");
+        createPropertyValidator.ValidateAndThrow(createPropertyDto);
+        var property = createPropertyDto.ToProperty();
+        context.Properties.Add(property);
+        context.SaveChanges();
+        return new PropertyDto().FromEntity(property);
+    }
+
+    public PropertyDto UpdateProperty(UpdatePropertyDto updatePropertyDto)
+    {
+        logger.LogInformation("Updating property");
+        updatePropertyValidator.ValidateAndThrow(updatePropertyDto);
+        
+        var property = context.Properties.Find(updatePropertyDto.Id);
+        if (property == null)
+        {
+            throw new Exception("Property not found");
+        }
+        
+        property.PropertyName = updatePropertyDto.Name;
+        
+        context.Properties.Update(property);
+        context.SaveChanges();
+        
+        return new PropertyDto().FromEntity(property);
+    }
+
+    public List<Property> GetAllProperties()
+    {
+        return context.Properties.ToList();
+    }
+
+    public List<Property> GetPropertyById(int id)
+    {
+        return context.Properties.Where(x => x.Id == id).ToList();
+    }
+    
+    public void AddPropertyToPaper(int paperId, int propertyId)
+    {
+        var paper = context.Papers.Find(paperId);
+        var property = context.Properties.Find(propertyId);
+        
+        paper.Properties.Add(property);
+        context.SaveChanges();
     }
 }

@@ -40,4 +40,12 @@ public class PaperController (IDunderMifflinService service) : ControllerBase
         var paper = service.UpdatePaper(updatePaperDto);
         return Ok(paper);
     }
+    
+    [HttpPost]
+    [Route("addPropertyToPaper/{id}")]
+    public ActionResult<Paper> AddPropertyToPaper(int id, int propertyId)
+    {
+        service.AddPropertyToPaper(id, propertyId);
+        return Ok();
+    }
 }
