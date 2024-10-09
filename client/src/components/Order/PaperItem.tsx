@@ -1,6 +1,8 @@
 ﻿import { useEffect, useState, useRef } from "react";
 import {http} from "../../http.ts";
 import {useNavigate} from "react-router-dom";
+// @ts-ignore
+import PaperPlaceholder from '../../assests//images/PaperStack.jpg';
 
 export default function PaperItem() {
     
@@ -38,7 +40,7 @@ export function Item() {
     return (
         <div className="p-4 bg-gray-100 rounded-md">
             <img
-                src="https://www.gstatic.com/webp/gallery/1.webp" className="rounded-box" alt="Carousel Item"
+                src={PaperPlaceholder} className="rounded-box" alt="Carousel Item"
             />
             <div>
                 <input

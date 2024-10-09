@@ -34,4 +34,17 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
         var order = service.CreateOrder(orderDto);
         return Ok(order);
     }
+    
+    [HttpPut]
+    [Route("update/{id}")]
+    public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto orderDto)
+    {
+        if (id != orderDto.Id )
+        {
+            return BadRequest("Wrong Order Id");
+        }
+        
+        var order = service.UpdateOrder(orderDto);
+        return Ok(order);
+    }
 }

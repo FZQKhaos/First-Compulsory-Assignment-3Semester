@@ -88,6 +88,20 @@ export interface CreateOrderDto {
   customerId?: number;
 }
 
+export interface UpdateOrderDto {
+  /** @format int32 */
+  id?: number;
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format int32 */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+}
+
 export interface CreatePaperDto {
   name?: string;
   discontinued?: boolean;
@@ -335,6 +349,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Order[], any>({
         path: `/api/Orders/${id}`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Orders
+     * @name OrdersUpdateOrder
+     * @request PUT:/api/Orders/update/{id}
+     */
+    ordersUpdateOrder: (id: number, data: UpdateOrderDto, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/api/Orders/update/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

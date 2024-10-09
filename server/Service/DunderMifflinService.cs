@@ -46,6 +46,7 @@ public class DunderMifflinService(
     IValidator<UpdatePaperDto> updatePaperValidator,
     IValidator<CreatePropertyDto> createPropertyValidator,
     IValidator<UpdatePropertyDto> updatePropertyValidator,
+    IValidator<UpdateOrderDto> updateOrderValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
 {
@@ -86,8 +87,19 @@ public class DunderMifflinService(
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto)
     {
         logger.LogInformation("Updating order");
-        // updateOrderValidator.ValidateAndThrow(updateOrderDto);
-        var order = updateOrderDto.ToOrder();
+        updateOrderValidator.ValidateAndThrow(updateOrderDto);
+        var order = context.Orders.Find(updateOrderDto.Id);
+        if (order == null)
+        {
+            throw new Exception("Order not found");
+        }
+        
+        order.OrderDate = updateOrderDto.OrderDate;
+        order.DeliveryDate = updateOrderDto.DeliveryDate;
+        order.Status = updateOrderDto.Status;
+        order.TotalAmount = updateOrderDto.TotalAmount;
+        order.CustomerId = updateOrderDto.CustomerId;
+        
         context.Orders.Update(order);
         return new OrderDto().FromEntity(order);
     }
