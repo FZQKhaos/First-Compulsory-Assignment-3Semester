@@ -11,7 +11,7 @@ export default function PaperItem() {
     const [cart, setCart] = useAtom(cartAtom);
 
     useEffect(() => {
-        http.api.papersGetPapers()
+        http.api.paperGetPapers()
             .then(response => setPapers(response.data));
     }, []);
 
