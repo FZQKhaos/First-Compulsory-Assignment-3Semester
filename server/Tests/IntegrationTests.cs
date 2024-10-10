@@ -276,7 +276,7 @@ public class IntegrationTests : WebApplicationFactory<Program>
     [Fact]
     public async Task Create_An_Order()
     {
-        var customer = new Customer
+        var customer = new Customer()
         {
             Id = 1,
             Name = "Hans",
@@ -314,11 +314,13 @@ public class IntegrationTests : WebApplicationFactory<Program>
         };
 
         _pgCtxSetup.DbContextInstance.Customers.AddRange(customer);
+        _pgCtxSetup.DbContextInstance.Papers.AddRange(paper);
         _pgCtxSetup.DbContextInstance.SaveChanges();
         
         var client = CreateClient();
         
         var orderEntryResponse = await client.PostAsJsonAsync("/api/OrderEntries/create", orderEntry);
+        
         Assert.Equal(HttpStatusCode.OK, orderEntryResponse.StatusCode);
     }
 }
