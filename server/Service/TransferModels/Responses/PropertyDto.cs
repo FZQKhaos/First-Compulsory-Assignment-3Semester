@@ -6,7 +6,7 @@ public class PropertyDto
 {
     
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string PropertyName { get; set; }
     
     
     public PropertyDto FromEntity(Property property)
@@ -14,7 +14,7 @@ public class PropertyDto
         return new PropertyDto
         {
             Id = property.Id,
-            Name = property.PropertyName
+            PropertyName = property.PropertyName
         };
     }
 }

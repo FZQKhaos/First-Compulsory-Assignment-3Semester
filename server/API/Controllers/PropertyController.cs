@@ -2,6 +2,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.TransferModels.Requests.Property;
+using Service.TransferModels.Responses;
 
 namespace API.Controllers;
 [ApiController]
@@ -27,7 +28,7 @@ public class PropertyController(IDunderMifflinService service) : ControllerBase
 
     [HttpPost]
     [Route("create")]
-    public ActionResult<Property> CreateProperty(CreatePropertyDto createPropertyDto)
+    public ActionResult<PropertyDto> CreateProperty(CreatePropertyDto createPropertyDto)
     {
         var property = service.CreateProperty(createPropertyDto);
         return Ok(property);

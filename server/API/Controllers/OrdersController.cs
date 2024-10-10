@@ -1,4 +1,3 @@
-using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.TransferModels.Requests;
@@ -23,7 +22,7 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public ActionResult<List<Order>> GetOrderByCustomerId(int id)
+    public ActionResult<List<OrderDto>> GetOrderByCustomerId(int id)
     {
         var order = service.GetOrdersByCustomerId(id);
         return Ok(order);
@@ -32,7 +31,7 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
     
     [HttpPut]
     [Route("update/{id}")]
-    public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto updateOrderDto)
+    public ActionResult<OrderDto> UpdateOrder(int id, UpdateOrderDto updateOrderDto)
     {
         if (id != updateOrderDto.Id )
         {

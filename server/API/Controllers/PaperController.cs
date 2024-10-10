@@ -2,6 +2,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.TransferModels.Requests;
+using Service.TransferModels.Responses;
 
 namespace API.Controllers;
 
@@ -21,7 +22,7 @@ public class PaperController (IDunderMifflinService service) : ControllerBase
 
     [HttpPost]
     [Route("create")]
-    public ActionResult<Paper> CreatePaper(CreatePaperDto createPaperDto)
+    public ActionResult<PaperDto> CreatePaper(CreatePaperDto createPaperDto)
     {
         var paper = service.CreatePaper(createPaperDto);
         return Ok(paper);
@@ -43,7 +44,7 @@ public class PaperController (IDunderMifflinService service) : ControllerBase
     
     [HttpPost]
     [Route("addPropertyToPaper/{id}")]
-    public ActionResult<Paper> AddPropertyToPaper(int id, int propertyId)
+    public ActionResult<PaperDto> AddPropertyToPaper(int id, int propertyId)
     {
         service.AddPropertyToPaper(id, propertyId);
         return Ok();

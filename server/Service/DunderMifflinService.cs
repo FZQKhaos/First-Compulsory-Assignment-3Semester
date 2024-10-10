@@ -211,7 +211,16 @@ public class DunderMifflinService(
     public void AddPropertyToPaper(int paperId, int propertyId)
     {
         var paper = context.Papers.Find(paperId);
+        if (paper == null)
+        {
+            throw new Exception("Paper not found");
+        }
+        
         var property = context.Properties.Find(propertyId);
+        if (property == null)
+        {
+            throw new Exception("Property not found");
+        }
         
         paper.Properties.Add(property);
         context.SaveChanges();
