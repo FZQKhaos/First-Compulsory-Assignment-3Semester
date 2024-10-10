@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { http } from "../../http";
 import { useAtom } from "jotai";
 import { cartAtom } from "../atoms/CartAtom.tsx";
-import { OrderEntry } from "../../Api.ts";
 
 interface Cart {
     id?: number;
@@ -35,9 +34,9 @@ export default function ConfirmOrder() {
     const [orderItems, setOrderItems] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
-        const items = cart.map((item) => (
+        const items = cart.map((item, index) => (
             <PaperItem
-                key={item.id}
+                key={`${item.id}-${index}`}
                 name={item.name}
                 price={item.price}
                 amount={item.amount}
@@ -53,7 +52,7 @@ export default function ConfirmOrder() {
 
     return (
         <div>
-            <h1>register yourself. we will grate be selling this information</h1>
+            <h1 className="text-lg font-semibold">Basic Information</h1>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Name} alt={"Name"}/>
                 <input type="text" className="grow" placeholder="Name"/>

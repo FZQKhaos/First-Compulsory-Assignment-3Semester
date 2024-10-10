@@ -35,15 +35,15 @@ export default function NavigationBar() {
                             className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
                             <div className="card-body">
                                 <span className="text-lg font-bold">{cart.length} Items</span>
-                                <span className="text-info">Subtotal: ${cart.reduce((total, item) => total + item.price * item.amount, 0).toFixed(2)}</span>
+                                <span className="text-info"> Subtotal: ${cart.reduce((total, item) => total + (item.price ?? 0) * item.amount, 0).toFixed(2)}</span>
                                 <div className="card-actions">
-                                    <button className="btn btn-primary btn-block">View cart</button>
+                                    <button className="btn btn-primary btn-block" onClick={() => navigate('/Customer')}>View cart</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 <img
                                     src={Profile}
@@ -54,7 +54,7 @@ export default function NavigationBar() {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li>
-                                <button className="justify-between" onClick={() => navigate('/Customer')}>
+                                <button className="justify-between">
                                     Placeholder
                                 </button>
                             </li>

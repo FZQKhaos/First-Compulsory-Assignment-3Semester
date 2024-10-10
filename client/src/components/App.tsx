@@ -12,7 +12,6 @@ import ThankYou from "./Order/ThankYou.tsx";
 const App = () => {
 
 
-
     return (<>
 
         <Toaster position={"bottom-center"}/>
