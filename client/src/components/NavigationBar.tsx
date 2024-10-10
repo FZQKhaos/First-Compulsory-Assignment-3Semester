@@ -6,6 +6,7 @@ import Profile from '../assests/images/Profile.png';
 import {useNavigate} from "react-router-dom";
 import {paperAtom} from "./atoms/PaperAtom.tsx";
 import {cartAtom} from "./atoms/CartAtom.tsx";
+import {useAtom} from "jotai";
 
 export default function NavigationBar() {
     const [cart] = useAtom(cartAtom);
