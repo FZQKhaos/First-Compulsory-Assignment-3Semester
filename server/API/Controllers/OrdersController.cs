@@ -11,7 +11,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class OrdersController(IDunderMifflinService service) : ControllerBase
 {
-    
+
     [HttpGet]
     [Route("")]
     public ActionResult<List<OrderDto>> GetOrders()
@@ -20,6 +20,7 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
         return Ok(orders);
     }
     
+
     [HttpGet]
     [Route("{id}")]
     public ActionResult<List<Order>> GetOrderByCustomerId(int id)
@@ -27,16 +28,9 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
         var order = service.GetOrdersByCustomerId(id);
         return Ok(order);
     }
-
-    [HttpPost]
-    [Route("")]
-    public ActionResult<Order> CreateOrder(CreateOrderDto orderDto)
-    {
-        var order = service.CreateOrder(orderDto);
-        return Ok(order);
-    }
     
-    [HttpPatch]
+    
+    [HttpPut]
     [Route("update/{id}")]
     public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto updateOrderDto)
     {

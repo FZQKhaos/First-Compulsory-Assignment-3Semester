@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 using Service.TransferModels.Requests;
 using Service.TransferModels.Responses;
 using Service.TransferModels.Requests.Customers;
+using Service.TransferModels.Requests.OrderEntries;
 using Service.TransferModels.Requests.Property;
-using Service.Validators;
 
 namespace Service;
 
@@ -19,7 +19,8 @@ public interface IDunderMifflinService
     public List<Customer> GetAllCustomers();
     
     // Orders
-    public OrderDto CreateOrder(CreateOrderDto createOrderDto);
+    public OrderEntryDto CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto);
+    public OrderEntryDto UpdateOrderEntry(UpdateOrderEntryDto updateOrderEntryDto);
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto);
     public List<OrderDto> GetAllOrders();
     public List<OrderDto> GetOrdersByCustomerId(int id);
@@ -50,6 +51,28 @@ public class DunderMifflinService(
     DunderMifflinContext context
     ) : IDunderMifflinService
 {
+    public OrderEntryDto CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto)
+    {
+        logger.LogInformation("Creating new order entry");
+        // createOrderEntryValidator.ValidateAndThrow(createOrderEntryDto);
+        var orderEntry = createOrderEntryDto.ToOrderEntry();
+        context.OrderEntries.Add(orderEntry);
+        CreateOrderDto createOrderDto = new CreateOrderDto();
+        var order = createOrderDto.ToOrder(createOrderEntryDto.Quantity);
+        context.Orders.Add(order);
+        context.SaveChanges();
+        return new OrderEntryDto().FromEntity(orderEntry);
+    }
+
+    public OrderEntryDto UpdateOrderEntry(UpdateOrderEntryDto updateOrderEntryDto)
+    {
+        logger.LogInformation("Updating order entry");
+        // Validator
+        var orderEntry = updateOrderEntryDto.ToOrderEntry();
+        context.OrderEntries.Update(orderEntry);
+        return new OrderEntryDto().FromEntity(orderEntry);
+    }
+    
     public CustomerDto CreateCustomer(CreateCustomerDto createCustomerDto)
     {
         logger.LogInformation("Creating new customer");
@@ -72,16 +95,6 @@ public class DunderMifflinService(
     public List<Customer> GetAllCustomers()
     {
         return context.Customers.ToList();
-    }
-
-    public OrderDto CreateOrder(CreateOrderDto createOrderDto)
-    {
-        logger.LogInformation("Creating new order");
-        // createOrderValidator.ValidateAndThrow(createOrderDto);
-        var order = createOrderDto.ToOrder();
-        context.Orders.Add(order);
-        context.SaveChanges();
-        return new OrderDto().FromEntity(order);
     }
 
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto)

@@ -40,17 +40,16 @@ public class Program
         var options = app.Services.GetRequiredService<IOptions<AppOptions>>().Value;
         Console.WriteLine("APP OPTIONS: " + JsonSerializer.Serialize(options));
 
-        app.UseHttpsRedirection();
+      //  app.UseHttpsRedirection();
 
         app.UseRouting();
-
 
         app.UseOpenApi();
         app.UseSwaggerUi();
         app.UseStatusCodePages();
 
-        app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-        app.UseMiddleware<RequestResponseLoggingMiddleware>();
+        //app.UseMiddleware<RequestResponseLoggingMiddleware>();
+      app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
         app.UseEndpoints(endpoints => endpoints.MapControllers());
 

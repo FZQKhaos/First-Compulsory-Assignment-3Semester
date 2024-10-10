@@ -76,16 +76,13 @@ export interface CreateCustomerDto {
   email?: string | null;
 }
 
-export interface CreateOrderDto {
-  /** @format date-time */
-  orderDate?: string;
-  /** @format date */
-  deliveryDate?: string | null;
-  status?: string;
+export interface CreateOrderEntryDto {
   /** @format int32 */
-  totalAmount?: number;
+  orderId?: number;
   /** @format int32 */
-  customerId?: number;
+  productId?: number;
+  /** @format int32 */
+  quantity?: number;
 }
 
 export interface UpdateOrderDto {
@@ -309,28 +306,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags Orders
-     * @name OrdersGetOrders
-     * @request GET:/api/Orders
+     * @tags OrderEntries
+     * @name OrderEntriesCreateOrderEntry
+     * @request POST:/api/OrderEntries
      */
-    ordersGetOrders: (params: RequestParams = {}) =>
-      this.request<Order[], any>({
-        path: `/api/Orders`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Orders
-     * @name OrdersCreateOrder
-     * @request POST:/api/Orders
-     */
-    ordersCreateOrder: (data: CreateOrderDto, params: RequestParams = {}) =>
-      this.request<Order, any>({
-        path: `/api/Orders`,
+    orderEntriesCreateOrderEntry: (data: CreateOrderEntryDto, params: RequestParams = {}) =>
+      this.request<OrderEntry, any>({
+        path: `/api/OrderEntries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -342,12 +324,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Orders
-     * @name OrdersGetOrderByCustomerId
-     * @request GET:/api/Orders/{id}
+     * @name OrdersGetOrders
+     * @request GET:/api/Orders
      */
-    ordersGetOrderByCustomerId: (id: number, params: RequestParams = {}) =>
+    ordersGetOrders: (params: RequestParams = {}) =>
       this.request<Order[], any>({
-        path: `/api/Orders/${id}`,
+        path: `/api/Orders`,
         method: "GET",
         format: "json",
         ...params,
