@@ -324,6 +324,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Orders
+     * @name OrdersGetOrders
+     * @request GET:/api/Orders
+     */
+    ordersGetOrders: (params: RequestParams = {}) =>
+      this.request<Order[], any>({
+        path: `/api/Orders`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Orders
      * @name OrdersUpdateOrder
      * @request PUT:/api/Orders/update/{id}
      */
