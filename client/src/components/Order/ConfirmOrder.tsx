@@ -7,10 +7,11 @@ import Address from '../../assests/images/Address.png';
 import Phone from '../../assests/images/Phone.png';
 // @ts-ignore
 import Email from '../../assests/images/Email.png';
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { http } from "../../http";
 import { useAtom } from "jotai";
 import { cartAtom } from "../atoms/CartAtom.tsx";
+import { Customer } from "../../Api.ts";
 
 interface Cart {
     id?: number;
@@ -19,13 +20,19 @@ interface Cart {
     amount: number
 }
 
-function OrderRequest(cart: Cart[]) {
-    const response = cart.map(p => http.api.orderEntriesCreateOrderEntry({
+function OrderRequest(cart: Cart[], customer: Customer) {
+    const response1 = http.api.customersCreateCustomer({
+        name: customer.name,
+        address: customer.address,
+        phone: customer.phone,
+        email: customer.email,
+    })
+    const response2 = cart.map(p =>  http.api.orderEntriesCreateOrderEntry({
             quantity: p.amount,
             productId: p.id,
-        })
+        }),
     );
-    console.log(response);
+    console.log(response1, response2);
 }
 
 export default function ConfirmOrder() {
@@ -46,35 +53,46 @@ export default function ConfirmOrder() {
     }, [cart]);
 
     const handleOrderClick = () => {
-        OrderRequest(cart);
+        const newCustomer: Customer = {
+            name: customerName.current?.value || '',
+            address: customerAddress.current?.value || '',
+            phone: customerPhone.current?.value || '',
+            email: customerEmail.current?.value || '',
+        };
+        OrderRequest(cart, newCustomer);
         navigate('/ThankYou');
     };
+
+    const customerName = useRef<HTMLInputElement>(null);
+    const customerAddress = useRef<HTMLInputElement>(null);
+    const customerPhone = useRef<HTMLInputElement>(null);
+    const customerEmail = useRef<HTMLInputElement>(null);
 
     return (
         <div>
             <h1 className="text-lg font-semibold">Basic Information</h1>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Name} alt={"Name"}/>
-                <input type="text" className="grow" placeholder="Name"/>
+                <input type="text" name="name" className="grow" placeholder="Name" ref={customerName}/>
             </label>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Address} alt={"Address"}/>
-                <input type="text" className="grow" placeholder="Address"/>
+                <input type="text" name="address" className="grow" placeholder="Address" ref={customerAddress}/>
             </label>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Phone} alt={"Phone"}/>
-                <input type="text" className="grow" placeholder="Phone"/>
+                <input type="text" name="phone" className="grow" placeholder="Phone" ref={customerPhone}/>
             </label>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <img src={Email} alt="Mail"/>
-                <input type="text" className="grow" placeholder="Email"/>
+                <input type="text" name="email" className="grow" placeholder="Email" ref={customerEmail}/>
             </label>
             <div>
                 {orderItems}
             </div>
             <label className="input input-bordered flex items-center gap-2 w-1/4">
                 <p>
-                    Total: <strong>${cart.reduce((total, item) => {
+                Total: <strong>${cart.reduce((total, item) => {
                     const price = typeof item.price === 'number' ? item.price : 0;
                     const amount = item.amount;
                     return total + price * amount;

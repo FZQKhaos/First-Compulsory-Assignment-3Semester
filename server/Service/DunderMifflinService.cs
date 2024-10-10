@@ -55,11 +55,12 @@ public class DunderMifflinService(
     {
         logger.LogInformation("Creating new order entry");
         // createOrderEntryValidator.ValidateAndThrow(createOrderEntryDto);
-        var orderEntry = createOrderEntryDto.ToOrderEntry();
-        context.OrderEntries.Add(orderEntry);
         CreateOrderDto createOrderDto = new CreateOrderDto();
-        var order = createOrderDto.ToOrder(createOrderEntryDto.Quantity);
+        var order = createOrderDto.ToOrder(createOrderEntryDto.Quantity, GetAllCustomers().OrderByDescending(o => o.Id).FirstOrDefault().Id);
         context.Orders.Add(order);
+        context.SaveChanges();
+        var orderEntry = createOrderEntryDto.ToOrderEntry(order.Id);
+        context.OrderEntries.Add(orderEntry);
         context.SaveChanges();
         return new OrderEntryDto().FromEntity(orderEntry);
     }

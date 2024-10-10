@@ -4,21 +4,15 @@ namespace Service.TransferModels.Requests;
 
 public class CreateOrderDto
 {
-    public DateTime? OrderDate { get; set; }
-    public DateTime? DeliveryDate { get; set; }
-    public string Status { get; set; }
-    public int TotalAmount { get; set; }
-    public int CustomerId { get; set; }
-
-    public Order ToOrder(int totalAmount)
+    public Order ToOrder(int totalAmount, int customerId)
     {
         return new Order
         {
-            OrderDate = DateTime.Today,
+            OrderDate = DateTime.Today.ToUniversalTime(),
             DeliveryDate = DateOnly.FromDateTime(DateTime.Today.AddDays(3)),
-            Status = Status,
-            TotalAmount = TotalAmount,
-            CustomerId = CustomerId
+            Status = "Processing",
+            TotalAmount = totalAmount,
+            CustomerId = customerId
         };
     }
 }

@@ -10,11 +10,11 @@ public class CreateOrderEntryDto
     
     public int Quantity { get; set; }
 
-    public OrderEntry ToOrderEntry()
+    public OrderEntry ToOrderEntry(int orderId)
     {
         return new OrderEntry
         {
-            OrderId = OrderId,
+            OrderId = orderId,
             ProductId = ProductId,
             Quantity = Quantity
         };
