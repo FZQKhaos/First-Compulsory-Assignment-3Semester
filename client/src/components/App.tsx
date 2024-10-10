@@ -2,7 +2,6 @@ import {Route, Routes} from "react-router-dom";
 import React, {useEffect} from "react";
 import {Toaster} from "react-hot-toast";
 import {DevTools} from "jotai-devtools";
-import {useAtom} from "jotai";
 import Home from "./Home.tsx";
 import Orders from "./Order/OrdersList.tsx";
 import NavigationBar from "./NavigationBar.tsx";

@@ -12,8 +12,6 @@ export default function NavigationBar() {
     const [cart] = useAtom(cartAtom);
     const navigate = useNavigate();
 
-
-
     return (
         <div className="border-b-2 border-black">
             <div className="navbar bg-base-100">

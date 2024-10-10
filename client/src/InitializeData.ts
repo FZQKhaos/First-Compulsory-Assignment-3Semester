@@ -10,8 +10,8 @@ export function useInitializeData() {
     const [orders, setOrders] = useAtom(orderAtom);
 
   useEffect(() => {
-    http
-        .customers.customersList()
+    http.api
+        .customersGetCustomers()
         .then((response) => {
             setCustomers(response.data);
         }).catch((error) => {
@@ -20,8 +20,8 @@ export function useInitializeData() {
   }, []);
 
     useEffect(() => {
-        http
-            .orders.ordersList()
+        http.api
+            .ordersGetOrders()
             .then((response) => {
                 setOrders(response.data);
                 console.log(response.data);
