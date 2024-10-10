@@ -3,6 +3,8 @@ import { orderAtom } from "../atoms/OrderAtom.tsx";
 import { useAtom } from "jotai";
 import { useInitializeData } from "../../InitializeData.ts";
 import {useState} from "react";
+import toast from "react-hot-toast";
+import { http } from "../../http.ts";
 
 export default function UpdateOrder() {
 
@@ -18,6 +20,34 @@ export default function UpdateOrder() {
             [orderId]: newStatus
         }));
     };
+
+    const saveOrderStatus = async (orderId: number) => {
+        const newStatus = orderStatus[orderId];
+        if (!newStatus) {
+            return;
+        }
+
+        const updatedOrders = orders.map((order) =>
+            order.id === orderId ? { ...order, status: newStatus } : order
+        );
+
+        setOrders(updatedOrders);
+
+        const updatedOrder = updatedOrders.find((order) => order.id === orderId);
+
+        if (!updatedOrder) {
+            return;
+        }
+
+        try {
+            // @ts-ignore
+            await http.api.ordersUpdateOrder(orderId, updatedOrder);
+            toast.success(`Updated order: ${orderId}`);
+        } catch (error) {
+            toast.error(`Failed to update order: ${orderId}`);
+            console.error(error);
+        }
+    }
 
         return (
             <div>
@@ -72,7 +102,10 @@ export default function UpdateOrder() {
                                     </td>
                                     <td>${order.totalAmount}</td>
                                     <td>
-                                        <button className="btn p-3 mt-2 mb-2">
+                                        <button
+                                            className="btn p-3 mt-2 mb-2"
+                                            onClick={() => saveOrderStatus(order.id as number)}
+                                        >
                                             Save
                                         </button>
                                     </td>

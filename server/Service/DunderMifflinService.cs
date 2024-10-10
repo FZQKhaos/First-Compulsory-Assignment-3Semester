@@ -101,6 +101,7 @@ public class DunderMifflinService(
         order.CustomerId = updateOrderDto.CustomerId;
         
         context.Orders.Update(order);
+        context.SaveChanges();
         return new OrderDto().FromEntity(order);
     }
 

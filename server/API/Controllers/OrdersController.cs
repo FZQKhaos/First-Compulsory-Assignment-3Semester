@@ -35,16 +35,16 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
         return Ok(order);
     }
     
-    [HttpPut]
+    [HttpPatch]
     [Route("update/{id}")]
-    public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto orderDto)
+    public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto updateOrderDto)
     {
-        if (id != orderDto.Id )
+        if (id != updateOrderDto.Id )
         {
             return BadRequest("Wrong Order Id");
         }
         
-        var order = service.UpdateOrder(orderDto);
+        var order = service.UpdateOrder(updateOrderDto);
         return Ok(order);
     }
 }

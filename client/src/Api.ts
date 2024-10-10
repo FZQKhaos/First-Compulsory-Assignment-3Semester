@@ -358,12 +358,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Orders
      * @name OrdersUpdateOrder
-     * @request PUT:/api/Orders/update/{id}
+     * @request PATCH:/api/Orders/update/{id}
      */
     ordersUpdateOrder: (id: number, data: UpdateOrderDto, params: RequestParams = {}) =>
       this.request<Order, any>({
         path: `/api/Orders/update/${id}`,
-        method: "PUT",
+        method: "PATCH",
         body: data,
         type: ContentType.Json,
         format: "json",
