@@ -15,7 +15,7 @@ public partial class Paper
 
     public double Price { get; set; }
 
-    public string? Picture { get; set; }
+    public string Picture { get; set; } = null!;
 
     public virtual ICollection<OrderEntry> OrderEntries { get; set; } = new List<OrderEntry>();
 

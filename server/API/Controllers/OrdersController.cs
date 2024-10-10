@@ -2,6 +2,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.TransferModels.Requests;
+using Service.TransferModels.Responses;
 
 namespace API.Controllers;
 
@@ -13,7 +14,7 @@ public class OrdersController(IDunderMifflinService service) : ControllerBase
     
     [HttpGet]
     [Route("")]
-    public ActionResult<List<Order>> GetOrders()
+    public ActionResult<List<OrderDto>> GetOrders()
     {
         var orders = service.GetAllOrders();
         return Ok(orders);

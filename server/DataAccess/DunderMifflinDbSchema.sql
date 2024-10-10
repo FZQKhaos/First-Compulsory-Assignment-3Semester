@@ -16,7 +16,8 @@ CREATE TABLE paper (
                        discontinued boolean NOT NULL DEFAULT FALSE,
                        stock integer NOT NULL DEFAULT 0,
                        price double precision NOT NULL,
-                       CONSTRAINT paper_pkey PRIMARY KEY (id)
+                       CONSTRAINT paper_pkey PRIMARY KEY (id),
+    picture character varying(255) NOT NULL
 );
 
 CREATE TABLE properties (
