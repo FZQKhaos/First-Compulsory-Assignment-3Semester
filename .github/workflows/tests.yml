@@ -2,8 +2,7 @@ name: API Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
   test:
@@ -14,9 +13,8 @@ jobs:
         with:
           dotnet-version: '8'
       - uses: docker/setup-buildx-action@v3
-      
+        
       - name: Build
         run: dotnet build
-      
       - name: Run tests
       - run: dotnet test
