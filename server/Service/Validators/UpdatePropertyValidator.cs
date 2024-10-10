@@ -7,6 +7,6 @@ public class UpdatePropertyValidator : AbstractValidator<UpdatePropertyDto>
 {
     public UpdatePropertyValidator()
     {
-        RuleFor(x => x.Name.Length).GreaterThanOrEqualTo(2);
+        RuleFor(x => x.PropertyName.Length).GreaterThanOrEqualTo(2);
     }
 }

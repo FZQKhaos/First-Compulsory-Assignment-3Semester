@@ -7,6 +7,6 @@ public class CreatePropertyValidator : AbstractValidator<CreatePropertyDto>
 {
     public CreatePropertyValidator()
     {
-        RuleFor(x => x.Name.Length).GreaterThanOrEqualTo(2);
+        RuleFor(x => x.PropertyName.Length).GreaterThanOrEqualTo(2);
     }
 }

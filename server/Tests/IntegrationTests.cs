@@ -238,6 +238,44 @@ public class IntegrationTests : WebApplicationFactory<Program>
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         
     }
-    
-    
+
+    [Fact]
+    public async Task Change_Product_Discontinued()
+    {
+        var paper = new Paper()
+        {
+            Id = 1,
+            Name = "A4",
+            Discontinued = false,
+            Price = 10,
+            Stock = 100,
+            Picture = "A4.jpg"
+        };
+        
+        _pgCtxSetup.DbContextInstance.Papers.Add(paper);
+        _pgCtxSetup.DbContextInstance.SaveChanges();
+        
+        var client = CreateClient();
+        
+        var updatePaper = new UpdatePaperDto
+        {
+            Id = 1,
+            Name = "A4",
+            Discontinued = true,
+            Price = 10,
+            Stock = 100,
+        };
+        
+        var response = await client.PutAsJsonAsync("/api/Paper/update/1", updatePaper);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var updatedPaper = JsonSerializer.Deserialize<PaperDto>(responseContent, new JsonSerializerOptions() {PropertyNameCaseInsensitive = true});
+        _output.WriteLine(responseContent);
+        Assert.Equivalent(true, updatedPaper.Discontinued);
+    }
+
+    [Fact]
+    public async Task Create_An_Order()
+    {
+        
+    }
 }

@@ -191,7 +191,7 @@ public class DunderMifflinService(
             throw new Exception("Property not found");
         }
         
-        property.PropertyName = updatePropertyDto.Name;
+        property.PropertyName = updatePropertyDto.PropertyName;
         
         context.Properties.Update(property);
         context.SaveChanges();
