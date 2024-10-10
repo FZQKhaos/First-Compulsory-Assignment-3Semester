@@ -1,12 +1,13 @@
-name: API tests with .NET + TestContainers
+
+name: API Tests
 
 on:
-  workflow_dispatch:
   push:
-  pull_request:
+    branches:
+      - main
 
 jobs:
-  local_development:
+  test:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
