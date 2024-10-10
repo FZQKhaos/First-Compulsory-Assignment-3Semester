@@ -52,13 +52,7 @@ export default function PaperItem() {
     return (
         <div className="flex flex-col p-4">
             <div className="flex items-center mb-4">
-                <input
-                    type="text"
-                    placeholder="Search papers..."
-                    value={search}
-                    onChange={handleChange}
-                    className="input mr-2"
-                />
+                <input type="text" placeholder="Search papers..." value={search} onChange={handleChange} className="input mr-2"/>
                 <select value={sortOrder} onChange={handleSortChange} className="select">
                     <option value="asc">Price: Low to High</option>
                     <option value="desc">Price: High to Low</option>

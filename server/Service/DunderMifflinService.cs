@@ -38,15 +38,16 @@ public interface IDunderMifflinService
     public void AddPropertyToPaper(int paperId, int propertyId);
 }
 
-// Validator lines are commented, uncomment when validators are done
-
 public class DunderMifflinService(
     ILogger<DunderMifflinService> logger,
     IValidator<CreateCustomerDto> createCustomerValidator,
+    IValidator<UpdateCustomerDto> updateCustomerValidator,
     IValidator<CreatePaperDto> createPaperValidator,
     IValidator<UpdatePaperDto> updatePaperValidator,
     IValidator<CreatePropertyDto> createPropertyValidator,
     IValidator<UpdatePropertyDto> updatePropertyValidator,
+    IValidator<CreateOrderEntryDto> createOrderEntryValidator,
+    IValidator<UpdateOrderEntryDto> updateOrderEntryValidator,
     IValidator<UpdateOrderDto> updateOrderValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
@@ -54,7 +55,7 @@ public class DunderMifflinService(
     public OrderEntryDto CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto)
     {
         logger.LogInformation("Creating new order entry");
-        // createOrderEntryValidator.ValidateAndThrow(createOrderEntryDto);
+        createOrderEntryValidator.ValidateAndThrow(createOrderEntryDto);
         CreateOrderDto createOrderDto = new CreateOrderDto();
         var order = createOrderDto.ToOrder(createOrderEntryDto.Quantity, GetAllCustomers().OrderByDescending(o => o.Id).FirstOrDefault().Id);
         context.Orders.Add(order);
@@ -68,7 +69,7 @@ public class DunderMifflinService(
     public OrderEntryDto UpdateOrderEntry(UpdateOrderEntryDto updateOrderEntryDto)
     {
         logger.LogInformation("Updating order entry");
-        // Validator
+        updateOrderEntryValidator.ValidateAndThrow(updateOrderEntryDto);
         var orderEntry = updateOrderEntryDto.ToOrderEntry();
         context.OrderEntries.Update(orderEntry);
         return new OrderEntryDto().FromEntity(orderEntry);
@@ -87,7 +88,7 @@ public class DunderMifflinService(
     public CustomerDto UpdateCustomer(UpdateCustomerDto updateCustomerDto)
     {
         logger.LogInformation("Updating customer");
-        // updateCustomerValidator.ValidateAndThrow(updateCustomerDto);
+        updateCustomerValidator.ValidateAndThrow(updateCustomerDto);
         var customer = updateCustomerDto.ToCustomer();
         context.Customers.Update(customer);
         return new CustomerDto().FromEntity(customer);
