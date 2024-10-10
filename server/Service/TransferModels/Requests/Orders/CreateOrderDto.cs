@@ -8,7 +8,7 @@ public class CreateOrderDto
     {
         return new Order
         {
-            OrderDate = DateTime.Today.ToUniversalTime(),
+            OrderDate = DateTime.UtcNow,
             DeliveryDate = DateOnly.FromDateTime(DateTime.Today.AddDays(3)),
             Status = "Processing",
             TotalAmount = totalAmount,

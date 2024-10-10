@@ -11,7 +11,7 @@ public class OrderEntriesController(IDunderMifflinService service) : ControllerB
 {
     
     [HttpPost]
-    [Route("")]
+    [Route("create")]
     public ActionResult<OrderEntry> CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto)
     {
         var orderEntry = service.CreateOrderEntry(createOrderEntryDto);

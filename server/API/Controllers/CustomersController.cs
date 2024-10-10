@@ -20,7 +20,7 @@ public class CustomersController(IDunderMifflinService service) : ControllerBase
     }
     
     [HttpPost]
-    [Route("")]
+    [Route("create")]
     public ActionResult<Customer> CreateCustomer(CreateCustomerDto createCustomerDto)
     {
         var customer = service.CreateCustomer(createCustomerDto);

@@ -276,6 +276,49 @@ public class IntegrationTests : WebApplicationFactory<Program>
     [Fact]
     public async Task Create_An_Order()
     {
+        var customer = new Customer
+        {
+            Id = 1,
+            Name = "Hans",
+            Address = "12 Dundler Mifflin Way",
+            Phone = "22345678",
+            Email = "hans@tempmail.com"
+        };
         
+        var paper = new Paper()
+        {
+            Id = 1,
+            Name = "A4",
+            Discontinued = false,
+            Price = 10,
+            Stock = 100,
+            Picture = "A4.jpg"
+        };
+
+        var order = new Order()
+        {
+            Id = 1,
+            OrderDate = DateTime.UtcNow,
+            DeliveryDate = DateOnly.FromDateTime(DateTime.Today.AddDays(3)),
+            Status = "Processing",
+            TotalAmount = 5,
+            CustomerId = customer.Id,
+        };
+
+        var orderEntry = new OrderEntry()
+        {
+            Id = 1,
+            OrderId = order.Id,
+            ProductId = paper.Id,
+            Quantity = 5
+        };
+
+        _pgCtxSetup.DbContextInstance.Customers.AddRange(customer);
+        _pgCtxSetup.DbContextInstance.SaveChanges();
+        
+        var client = CreateClient();
+        
+        var orderEntryResponse = await client.PostAsJsonAsync("/api/OrderEntries/create", orderEntry);
+        Assert.Equal(HttpStatusCode.OK, orderEntryResponse.StatusCode);
     }
 }
