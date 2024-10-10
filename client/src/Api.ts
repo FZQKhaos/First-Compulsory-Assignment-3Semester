@@ -57,6 +57,7 @@ export interface Paper {
   stock?: number;
   /** @format double */
   price?: number;
+  picture?: string | null;
   orderEntries?: OrderEntry[];
   properties?: Property[];
 }
@@ -82,6 +83,51 @@ export interface CreateOrderEntryDto {
   productId?: number;
   /** @format int32 */
   quantity?: number;
+}
+
+export interface UpdateOrderDto {
+  /** @format int32 */
+  id?: number;
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format int32 */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+}
+
+export interface CreatePaperDto {
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  picture?: string | null;
+}
+
+export interface UpdatePaperDto {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+}
+
+export interface CreatePropertyDto {
+  name?: string;
+}
+
+export interface UpdatePropertyDto {
+  /** @format int32 */
+  id?: number;
+  name?: string;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -278,12 +324,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Orders
-     * @name OrdersGetOrders
-     * @request GET:/api/Orders
+     * @name OrdersUpdateOrder
+     * @request PUT:/api/Orders/update/{id}
      */
-    ordersGetOrders: (params: RequestParams = {}) =>
-      this.request<Order[], any>({
-        path: `/api/Orders`,
+    ordersUpdateOrder: (id: number, data: UpdateOrderDto, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/api/Orders/update/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperGetPapers
+     * @request GET:/api/Paper
+     */
+    paperGetPapers: (params: RequestParams = {}) =>
+      this.request<Paper[], any>({
+        path: `/api/Paper`,
         method: "GET",
         format: "json",
         ...params,
@@ -292,14 +355,56 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags Orders
-     * @name OrdersGetOrderByCustomerId
-     * @request GET:/api/Orders/{id}
+     * @tags Paper
+     * @name PaperCreatePaper
+     * @request POST:/api/Paper/create
      */
-    ordersGetOrderByCustomerId: (id: number, params: RequestParams = {}) =>
-      this.request<Order[], any>({
-        path: `/api/Orders/${id}`,
-        method: "GET",
+    paperCreatePaper: (data: CreatePaperDto, params: RequestParams = {}) =>
+      this.request<Paper, any>({
+        path: `/api/Paper/create`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperUpdatePaper
+     * @request PUT:/api/Paper/update/{id}
+     */
+    paperUpdatePaper: (id: number, data: UpdatePaperDto, params: RequestParams = {}) =>
+      this.request<Paper, any>({
+        path: `/api/Paper/update/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperAddPropertyToPaper
+     * @request POST:/api/Paper/addPropertyToPaper/{id}
+     */
+    paperAddPropertyToPaper: (
+      id: number,
+      query?: {
+        /** @format int32 */
+        propertyId?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Paper, any>({
+        path: `/api/Paper/addPropertyToPaper/${id}`,
+        method: "POST",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -330,6 +435,70 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<Customer, any>({
         path: `/api/Papers`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Property
+     * @name PropertyGetProperties
+     * @request GET:/api/Property
+     */
+    propertyGetProperties: (params: RequestParams = {}) =>
+      this.request<Property[], any>({
+        path: `/api/Property`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Property
+     * @name PropertyGetPropertyById
+     * @request GET:/api/Property/get/{id}
+     */
+    propertyGetPropertyById: (id: number, params: RequestParams = {}) =>
+      this.request<Property[], any>({
+        path: `/api/Property/get/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Property
+     * @name PropertyCreateProperty
+     * @request POST:/api/Property/create
+     */
+    propertyCreateProperty: (data: CreatePropertyDto, params: RequestParams = {}) =>
+      this.request<Property, any>({
+        path: `/api/Property/create`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Property
+     * @name PropertyUpdateProperty
+     * @request PUT:/api/Property/update/{id}
+     */
+    propertyUpdateProperty: (id: number, data: UpdatePropertyDto, params: RequestParams = {}) =>
+      this.request<Property, any>({
+        path: `/api/Property/update/${id}`,
+        method: "PUT",
         body: data,
         type: ContentType.Json,
         format: "json",

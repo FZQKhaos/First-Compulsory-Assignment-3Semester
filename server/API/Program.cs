@@ -28,6 +28,9 @@ public class Program
             options.EnableSensitiveDataLogging();
         });
         builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());
+        builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePaperValidator>());
+        builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreatePropertyValidator>());
+        builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UpdatePaperValidator>());
         builder.Services.AddScoped<IDunderMifflinService, DunderMifflinService>();
         builder.Services.AddControllers();
         builder.Services.AddOpenApiDocument();

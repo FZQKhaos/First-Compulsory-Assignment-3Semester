@@ -7,23 +7,35 @@ using Service.TransferModels.Requests;
 using Service.TransferModels.Responses;
 using Service.TransferModels.Requests.Customers;
 using Service.TransferModels.Requests.OrderEntries;
+using Service.TransferModels.Requests.Property;
 
 namespace Service;
 
 public interface IDunderMifflinService
 {
-    public OrderEntryDto CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto);
-    public OrderEntryDto UpdateOrderEntry(UpdateOrderEntryDto updateOrderEntryDto);
+    // Customers
     public CustomerDto CreateCustomer(CreateCustomerDto createCustomerDto);
     public CustomerDto UpdateCustomer(UpdateCustomerDto updateCustomerDto);
     public List<Customer> GetAllCustomers();
+    
+    // Orders
+    public OrderEntryDto CreateOrderEntry(CreateOrderEntryDto createOrderEntryDto);
+    public OrderEntryDto UpdateOrderEntry(UpdateOrderEntryDto updateOrderEntryDto);
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto);
     public List<OrderDto> GetAllOrders();
     public List<OrderDto> GetOrdersByCustomerId(int id);
+    
+    // Papers
     public PaperDto CreatePaper(CreatePaperDto createPaperDto);
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto);
-    
     public List<Paper> GetAllPapers();
+    
+    // Properties
+    public PropertyDto CreateProperty(CreatePropertyDto createPropertyDto);
+    public PropertyDto UpdateProperty(UpdatePropertyDto updatePropertyDto);
+    public List<Property> GetAllProperties();
+    public List<Property> GetPropertyById(int id);
+    public void AddPropertyToPaper(int paperId, int propertyId);
 }
 
 // Validator lines are commented, uncomment when validators are done
@@ -31,6 +43,11 @@ public interface IDunderMifflinService
 public class DunderMifflinService(
     ILogger<DunderMifflinService> logger,
     IValidator<CreateCustomerDto> createCustomerValidator,
+    IValidator<CreatePaperDto> createPaperValidator,
+    IValidator<UpdatePaperDto> updatePaperValidator,
+    IValidator<CreatePropertyDto> createPropertyValidator,
+    IValidator<UpdatePropertyDto> updatePropertyValidator,
+    IValidator<UpdateOrderDto> updateOrderValidator,
     DunderMifflinContext context
     ) : IDunderMifflinService
 {
@@ -83,8 +100,19 @@ public class DunderMifflinService(
     public OrderDto UpdateOrder(UpdateOrderDto updateOrderDto)
     {
         logger.LogInformation("Updating order");
-        // updateOrderValidator.ValidateAndThrow(updateOrderDto);
-        var order = updateOrderDto.ToOrder();
+        updateOrderValidator.ValidateAndThrow(updateOrderDto);
+        var order = context.Orders.Find(updateOrderDto.Id);
+        if (order == null)
+        {
+            throw new Exception("Order not found");
+        }
+        
+        order.OrderDate = updateOrderDto.OrderDate;
+        order.DeliveryDate = updateOrderDto.DeliveryDate;
+        order.Status = updateOrderDto.Status;
+        order.TotalAmount = updateOrderDto.TotalAmount;
+        order.CustomerId = updateOrderDto.CustomerId;
+        
         context.Orders.Update(order);
         return new OrderDto().FromEntity(order);
     }
@@ -106,7 +134,7 @@ public class DunderMifflinService(
     public PaperDto CreatePaper(CreatePaperDto createPaperDto)
     {
         logger.LogInformation("Creating new paper");
-        // createPaperValidator.ValidateAndThrow(createPaperDto);
+        createPaperValidator.ValidateAndThrow(createPaperDto);
         var paper = createPaperDto.ToPaper();
         context.Papers.Add(paper);
         context.SaveChanges();
@@ -116,14 +144,75 @@ public class DunderMifflinService(
     public PaperDto UpdatePaper(UpdatePaperDto updatePaperDto)
     {
         logger.LogInformation("Updating paper");
-        // updatePaperValidator.ValidateAndThrow(updatePaperDto);
-        var paper = updatePaperDto.ToPaper();
+        updatePaperValidator.ValidateAndThrow(updatePaperDto);
+        
+        var paper = context.Papers.Find(updatePaperDto.Id);
+        if (paper == null)
+        {
+            throw new Exception("Paper not found");
+        }
+        
+        paper.Name = updatePaperDto.Name;
+        paper.Discontinued = updatePaperDto.Discontinued;
+        paper.Stock = updatePaperDto.Stock;
+        paper.Price = updatePaperDto.Price;
+
         context.Papers.Update(paper);
+        context.SaveChanges();
+        
         return new PaperDto().FromEntity(paper);
     }
 
     public List<Paper> GetAllPapers()
     {
         return context.Papers.ToList();
+    }
+
+    public PropertyDto CreateProperty(CreatePropertyDto createPropertyDto)
+    {
+        logger.LogInformation("Creating new property");
+        createPropertyValidator.ValidateAndThrow(createPropertyDto);
+        var property = createPropertyDto.ToProperty();
+        context.Properties.Add(property);
+        context.SaveChanges();
+        return new PropertyDto().FromEntity(property);
+    }
+
+    public PropertyDto UpdateProperty(UpdatePropertyDto updatePropertyDto)
+    {
+        logger.LogInformation("Updating property");
+        updatePropertyValidator.ValidateAndThrow(updatePropertyDto);
+        
+        var property = context.Properties.Find(updatePropertyDto.Id);
+        if (property == null)
+        {
+            throw new Exception("Property not found");
+        }
+        
+        property.PropertyName = updatePropertyDto.Name;
+        
+        context.Properties.Update(property);
+        context.SaveChanges();
+        
+        return new PropertyDto().FromEntity(property);
+    }
+
+    public List<Property> GetAllProperties()
+    {
+        return context.Properties.ToList();
+    }
+
+    public List<Property> GetPropertyById(int id)
+    {
+        return context.Properties.Where(x => x.Id == id).ToList();
+    }
+    
+    public void AddPropertyToPaper(int paperId, int propertyId)
+    {
+        var paper = context.Papers.Find(paperId);
+        var property = context.Properties.Find(propertyId);
+        
+        paper.Properties.Add(property);
+        context.SaveChanges();
     }
 }

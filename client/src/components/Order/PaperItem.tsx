@@ -1,10 +1,10 @@
 ﻿import { useEffect, useState, useRef } from "react";
 import {http} from "../../http.ts";
-import {useNavigate} from "react-router-dom";
-import { paperAtom } from "../atoms/PaperAtom"
 import { Paper } from "../../Api"
 import {useAtom} from "jotai";
 import {cartAtom} from "../atoms/CartAtom.tsx";
+// @ts-ignore
+import PaperPlaceholder from '../../assests//images/PaperStack.jpg';
 
 export default function PaperItem() {
     const [papers, setPapers] = useState<Paper[]>([]);
@@ -51,7 +51,7 @@ export function Item({ paper, onAddToCart }: ItemProps) {
     return (
         <div className="p-4 bg-gray-100 rounded-md">
             <img
-                src="https://www.gstatic.com/webp/gallery/1.webp" className="rounded-box" alt="Carousel Item"
+                src={PaperPlaceholder} className="rounded-box" alt="Carousel Item"
             />
             <h3>{paper.name}</h3>
             <p>${paper.price?.toFixed(2) || "0.00"}</p>

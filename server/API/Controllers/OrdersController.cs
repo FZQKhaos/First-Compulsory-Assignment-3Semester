@@ -12,19 +12,16 @@ namespace API.Controllers;
 public class OrdersController(IDunderMifflinService service) : ControllerBase
 {
     
-    [HttpGet]
-    [Route("")]
-    public ActionResult<List<Order>> GetOrders()
+    [HttpPut]
+    [Route("update/{id}")]
+    public ActionResult<Order> UpdateOrder(int id, UpdateOrderDto orderDto)
     {
-        var orders = service.GetAllOrders();
-        return Ok(orders);
-    }
-    
-    [HttpGet]
-    [Route("{id}")]
-    public ActionResult<List<Order>> GetOrderByCustomerId(int id)
-    {
-        var order = service.GetOrdersByCustomerId(id);
+        if (id != orderDto.Id )
+        {
+            return BadRequest("Wrong Order Id");
+        }
+        
+        var order = service.UpdateOrder(orderDto);
         return Ok(order);
     }
 }
